@@ -1,47 +1,107 @@
 <?php require "layout/header.php"; ?>
 
-<?php require "layout/menu.php"; ?>
-
 <main>
-    <section>
-        <img src="src/tumor.jpg" alt="Goku Misógino">
-        <div hidden>
-            <a href="#">Futuro menu</a>
+    <section class="section-destaque" id="destaque1">
+        <div class="container-flex">
+            <div class="destaque-texto">
+                <span class="badge-tag">O Mais Pedido com 5 estrelas</span>
+                <h2>BigUni</h2>
+                <p>2 hamburgeres com alface, cebola, picles e pao com gergelim, e aquele molho especial da marca do
+                    palhaço.</p>
+                <div class="preco-box">
+                    <span class="Preco-Hamburger">R$31,90</span>
+                    <span class="Preco-Combo">37,90</span>
+                </div>
+                <a href="#" class="btn-comprar">Adicionar ao Pedido</a>
+            </div>
+            <div class="destaque-img1">
+                <div class="img-placeholder"><img src="src/img/bigmac.jpg"></div>
+            </div>
+        </div>
+    </section>
+    <section class="section-destaque bg-light reverse" id="destaque-2">
+        <div class="container-flex">
+            <div class="destaque-texto">
+                <span class="badge-tag">Melhor Custo-Beneficio</span>
+                <h2>Box Casal Uni</h2>
+                <p>A combinação perfeita para dividir: 2 hamburger Salada de forma caprichada, com porção de batata.
+                </p>
+                <div class="preco-casal">
+                    <span class="preco-atual">R$ 54,90</span>
+                </div>
+                <a href="#" class="btn-comprar">Adicionar ao Pedido</a>
+            </div>
+            <div class="destaque-img1">
+                <div class="img-placeholder"><img src="src/img/casal.webp"></div>
+            </div>
+        </div>
+    </section>
+    <section class="section-destaque" id="destaque-3">
+        <div class="container-flex">
+            <div class="destaque-texto">
+                <span class="badge-tag">Melhor opção para os nossos pequenos</span>
+                <h2>KidsUni</h2>
+                <p>A opção perfeita para nossos pequenos, pão, carne e queijo com toque da nossa maionese especial.
+                </p>
+                <div class="preco-kids">
+                    <span class="preco-atual">R$ 21,90</span>
+                    <span class="Preco-Combo">28,90</span>
+                </div>
+                <a href="#" class="btn-comprar">Adicionar ao Pedido</a>
+            </div>
+            <div class="destaque-img1">
+                <div class="img-placeholder"><img src="src/img/Kids.jpg"></div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <section class="section-destaque bg-light reverse" id="destaque-4">
+        <div class="container-flex">
+            <div class="destaque-texto">
+                <span class="badge-tag">Melhor opção para o seu desjejum</span>
+                <h2>MegaUltraUni</h2>
+                <p>A opção perfeita para quebrar o seu jejum, com 4 carnes e muitoo queijo cheddar.</p>
+                <div class="preco-Mega">
+                    <span class="preco-atual">R$ 39,90</span>
+                    <span class="Preco-Combo">43,90</span>
+                </div>
+                <a href="#" class="btn-comprar">Adicionar ao Pedido</a>
+            </div>
+            <div class="destaque-img1">
+                <div class="img-placeholder"><img src="src/img/mega.jpg"></div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <section class="section-destaque" id="destaque-5">
+        <div class="container-flex">
+            <div class="destaque-texto">
+                <span class="badge-tag">Melhor opção de sobremesa</span>
+                <h2>BrownieUni</h2>
+                <p>A opção perfeita para uma sobremesa, pedacinhos de brownie com nossa calda de chocolate a parte.
+                </p>
+                <div class="preco-Brownie">
+                    <span class="preco-atual">R$ 14,90</span>
+                </div>
+                <a href="#" class="btn-comprar">Adicionar ao Pedido</a>
+            </div>
+            <div class="destaque-img1">
+                <div class="img-placeholder"><img src="src/img/brownie.jpg"></div>
+            </div>
+        </div>
         </div>
     </section>
 
-    <section>
-        <img src="src/tumor.jpg" alt="Goku Misógino">
-        <div hidden>
-            <a href="#">Futuro menu</a>
-        </div>
-    </section>
-
-    <section>
-        <img src="src/tumor.jpg" alt="Goku Misógino">
-        <div hidden>
-            <a href="#">Futuro menu</a>
-        </div>
-    </section>
-
-    <section>
-        <img src="src/tumor.jpg" alt="Goku Misógino">
-        <div hidden>
-            <a href="#">Futuro menu</a>
-        </div>
-    </section>
-
-    <section>
-        <img src="src/tumor.jpg" alt="Goku Misógino">
-        <div hidden>
-            <a href="#">Futuro menu</a>
-        </div>
-    </section>
-
-    <section>
-        <img src="src/tumor.jpg" alt="Goku Misógino">
-        <div hidden>
-            <a href="#">Futuro menu</a>
+    <section class="form-section" id="formulario">
+        <div class="container">
+            <h2>Assine nosso programa de fidelidade</h2>
+            <p>Troque seu pontos por Itens do cardápio</p>
+            <form action="processa.php" method="POST" class="custom-form">
+                <input type="text" name="nome" placeholder="Seu nome" required>
+                <input type="email" name="email" placeholder="Seu e-mail" required>
+                <input type="password" name="senha" placeholder="Sua senha" required>
+                <button type="submit">Quero Participar</button>
+            </form>
         </div>
     </section>
 </main>

@@ -1,0 +1,216 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body{
+    background-color: #ffffff;
+    color: #333;
+}
+
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.banner{
+    background-color: #ea1d2c;
+    color: white;
+    padding: 80px 0;
+}
+
+.banner h1{
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.banner img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 15px 0;
+    object-fit: cover;
+    box-shadow: o 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.banner p{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/*Sections*/
+
+.section-destaque{
+    padding: 80px 0;
+    border-bottom: 1px solid white
+}
+
+.bg-light{
+    background-color: #fafafa;
+}
+
+.container-flex{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.reverse .container-flex{
+    flex-direction: row-reverse;
+}
+
+.destaque-texto{
+    flex: 1;
+    text-align: left;
+}
+
+.badge-tag {
+    display: inline-block;
+    background-color: #ffeae6;
+    color: #EA1D2C;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.destaque-texto h2{
+    font-size: 36px;
+    color: #1c1c1c;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.destaque-texto p{
+    font-size: 16px;
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.preco-box, .preco-casal, .preco-kids, .preco-Mega, .preco-Brownie{
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.Preco-Hamburger{
+    font-size: 24px;
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.Preco-Combo::before{
+    content: "Combo:"
+}
+
+.preco-atual{
+    font-size: 24px;
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.btn-comprar{
+    display: inline-block;
+    padding: 14px 28px;
+    background-color: #EA1D2C;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0,2s;
+}
+
+.btn-comprar:hover{
+    background-color: #c91624;
+}
+
+.destaque-img1{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.img-placeholder{
+    width: 100%;
+    max-width: 400px;
+    height:300px;
+    background-color: #f0f0f0;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.img-placeholder img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/*footer e form*/
+
+.form-section{
+    background-color: #333333;
+    color: white;
+    padding:80px 0;
+}
+
+.form-section h2{
+    margin-bottom: 10px;
+}
+
+.form-section p{
+    margin-bottom: 20px;
+    color:#cccccc;
+}
+
+.custom-form{
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.custom-form input{
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.custom-form button{
+    padding: 15px;
+    background-color: #EA1D2C;
+    color: white;
+    border:none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.custom-form button:hover{
+    background-color: grey;
+}
+
+.fotter{
+    background-color: #111111;
+    color: #aaaaaa;
+    padding: 30px 0;
+    font-size: 14px;
+}
