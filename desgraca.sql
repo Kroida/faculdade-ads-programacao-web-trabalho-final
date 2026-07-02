@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS desgraca
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-CREATE USER 'goku'@'localhost' IDENTIFIED BY '4321';
+CREATE USER IF NOT EXISTS 'goku'@'localhost' IDENTIFIED BY '4321';
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON desgraca.* TO 'goku'@'localhost';
 
@@ -25,3 +25,7 @@ CREATE TABLE users (
   INDEX idx_users_status (status),
   INDEX idx_users_deleted_at (deleted_at)
 ) ENGINE=InnoDB;
+
+-- USE desgraca;
+-- SHOW TABLES;
+-- DESCRIBE users;

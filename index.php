@@ -12,7 +12,7 @@
                     <span class="Preco-Hamburger">R$31,90</span>
                     <span class="Preco-Combo">37,90</span>
                 </div>
-                <a href="#" class="btn-comprar">Adicionar ao Pedido</a>
+                <a class="btn-comprar" data-id="biguni">Adicionar ao Pedido</a>
             </div>
             <div class="destaque-img1">
                 <div class="img-placeholder"><img src="src/img/bigmac.jpg"></div>
@@ -29,7 +29,7 @@
                 <div class="preco-casal">
                     <span class="preco-atual">R$ 54,90</span>
                 </div>
-                <a href="#" class="btn-comprar">Adicionar ao Pedido</a>
+                <a class="btn-comprar">Adicionar ao Pedido</a>
             </div>
             <div class="destaque-img1">
                 <div class="img-placeholder"><img src="src/img/casal.webp"></div>
@@ -47,7 +47,7 @@
                     <span class="preco-atual">R$ 21,90</span>
                     <span class="Preco-Combo">28,90</span>
                 </div>
-                <a href="#" class="btn-comprar">Adicionar ao Pedido</a>
+                <a class="btn-comprar" data-id="kids">Adicionar ao Pedido</a>
             </div>
             <div class="destaque-img1">
                 <div class="img-placeholder"><img src="src/img/Kids.jpg"></div>
@@ -65,7 +65,7 @@
                     <span class="preco-atual">R$ 39,90</span>
                     <span class="Preco-Combo">43,90</span>
                 </div>
-                <a href="#" class="btn-comprar">Adicionar ao Pedido</a>
+                <a class="btn-comprar">Adicionar ao Pedido</a>
             </div>
             <div class="destaque-img1">
                 <div class="img-placeholder"><img src="src/img/mega.jpg"></div>
@@ -83,7 +83,7 @@
                 <div class="preco-Brownie">
                     <span class="preco-atual">R$ 14,90</span>
                 </div>
-                <a href="#" class="btn-comprar">Adicionar ao Pedido</a>
+                <a class="btn-comprar">Adicionar ao Pedido</a>
             </div>
             <div class="destaque-img1">
                 <div class="img-placeholder"><img src="src/img/brownie.jpg"></div>
@@ -94,16 +94,82 @@
 
     <section class="form-section" id="formulario">
         <div class="container">
-            <h2>Assine nosso programa de fidelidade</h2>
-            <p>Troque seu pontos por Itens do cardápio</p>
+            <h2>Sessão de login</h2>
             <form action="processa.php" method="POST" class="custom-form">
-                <input type="text" name="nome" placeholder="Seu nome" required>
                 <input type="email" name="email" placeholder="Seu e-mail" required>
                 <input type="password" name="senha" placeholder="Sua senha" required>
-                <button type="submit">Quero Participar</button>
+                <button type="submit">Logar</button>
             </form>
         </div>
     </section>
+
+    <dialog id="modal" class="modal-pedido">
+
+        <div class="modal-header">
+            <h2>Finalizar Pedido</h2>
+            <button type="button" id="fechar" class="btn-fechar">✕</button>
+        </div>
+
+        <form class="pedido-form">
+
+            <div class="produto-info">
+                <h3 id="modal-nome"></h3>
+                <p id="modal-descricao"></p>
+            </div>
+
+            <div class="campo">
+                <label for="quantidade">
+                    Quantidade
+                </label>
+
+                <input type="number" id="quantidade" name="quantidade" min="1" value="1">
+            </div>
+
+            <div class="campo">
+                <label for="observacao">
+                    Alguma observação?
+                </label>
+
+                <textarea id="observacao" name="observacao" rows="4"
+                    placeholder="Ex.: sem cebola, molho à parte..."></textarea>
+            </div>
+
+            <div class="resumo-pedido">
+
+                <div>
+                    <span>Produto</span>
+                    <strong id="modal-preco"></strong>
+                </div>
+
+                <div>
+                    <span>Entrega</span>
+                    <strong>Grátis</strong>
+                </div>
+
+                <hr>
+
+                <div class="total">
+                    <span>Total</span>
+                    <strong id="modal-preco-total"></strong>
+                </div>
+
+            </div>
+
+            <div class="acoes">
+
+                <button type="button" id="cancelar" class="btn-cancelar">
+                    Cancelar
+                </button>
+
+                <button type="submit" class="btn-confirmar">
+                    🛒 Fechar pedido
+                </button>
+
+            </div>
+
+        </form>
+
+    </dialog>
 </main>
 
 <?php require "layout/footer.php"; ?>

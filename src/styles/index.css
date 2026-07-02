@@ -1,34 +1,34 @@
-*{
-    margin:0;
+* {
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-body{
+body {
     background-color: #ffffff;
     color: #333;
 }
 
-.container{
+.container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
     text-align: center;
 }
 
-.banner{
+.banner {
     background-color: #ea1d2c;
     color: white;
     padding: 80px 0;
 }
 
-.banner h1{
+.banner h1 {
     font-size: 48px;
     margin-bottom: 10px;
 }
 
-.banner img{
+.banner img {
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -37,23 +37,23 @@ body{
     box-shadow: o 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.banner p{
+.banner p {
     font-size: 20px;
     font-weight: 500;
 }
 
 /*Sections*/
 
-.section-destaque{
+.section-destaque {
     padding: 80px 0;
     border-bottom: 1px solid white
 }
 
-.bg-light{
+.bg-light {
     background-color: #fafafa;
 }
 
-.container-flex{
+.container-flex {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 20px;
@@ -63,11 +63,11 @@ body{
     gap: 50px;
 }
 
-.reverse .container-flex{
+.reverse .container-flex {
     flex-direction: row-reverse;
 }
 
-.destaque-texto{
+.destaque-texto {
     flex: 1;
     text-align: left;
 }
@@ -83,44 +83,48 @@ body{
     margin-bottom: 15px;
 }
 
-.destaque-texto h2{
+.destaque-texto h2 {
     font-size: 36px;
     color: #1c1c1c;
     margin-bottom: 15px;
     line-height: 1.2;
 }
 
-.destaque-texto p{
+.destaque-texto p {
     font-size: 16px;
     color: #666666;
     line-height: 1.6;
     margin-bottom: 25px;
 }
 
-.preco-box, .preco-casal, .preco-kids, .preco-Mega, .preco-Brownie{
+.preco-box,
+.preco-casal,
+.preco-kids,
+.preco-Mega,
+.preco-Brownie {
     margin-bottom: 25px;
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-.Preco-Hamburger{
+.Preco-Hamburger {
     font-size: 24px;
     color: #2e7d32;
     font-weight: bold;
 }
 
-.Preco-Combo::before{
+.Preco-Combo::before {
     content: "Combo:"
 }
 
-.preco-atual{
+.preco-atual {
     font-size: 24px;
     color: #2e7d32;
     font-weight: bold;
 }
 
-.btn-comprar{
+.btn-comprar {
     display: inline-block;
     padding: 14px 28px;
     background-color: #EA1D2C;
@@ -128,33 +132,33 @@ body{
     text-decoration: none;
     font-weight: bold;
     border-radius: 8px;
-    transition: background-color 0,2s;
+    transition: background-color 0.2s;
 }
 
-.btn-comprar:hover{
+.btn-comprar:hover {
     background-color: #c91624;
 }
 
-.destaque-img1{
+.destaque-img1 {
     flex: 1;
     display: flex;
     justify-content: center;
 }
 
-.img-placeholder{
+.img-placeholder {
     width: 100%;
     max-width: 400px;
-    height:300px;
+    height: 300px;
     background-color: #f0f0f0;
     border-radius: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-.img-placeholder img{
+.img-placeholder img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -162,22 +166,22 @@ body{
 
 /*footer e form*/
 
-.form-section{
+.form-section {
     background-color: #333333;
     color: white;
-    padding:80px 0;
+    padding: 80px 0;
 }
 
-.form-section h2{
+.form-section h2 {
     margin-bottom: 10px;
 }
 
-.form-section p{
+.form-section p {
     margin-bottom: 20px;
-    color:#cccccc;
+    color: #cccccc;
 }
 
-.custom-form{
+.custom-form {
     max-width: 500px;
     margin: 0 auto;
     display: flex;
@@ -185,18 +189,18 @@ body{
     gap: 15px;
 }
 
-.custom-form input{
+.custom-form input {
     padding: 15px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
 }
 
-.custom-form button{
+.custom-form button {
     padding: 15px;
     background-color: #EA1D2C;
     color: white;
-    border:none;
+    border: none;
     border-radius: 8px;
     font-size: 16px;
     font-weight: bold;
@@ -204,11 +208,247 @@ body{
     transition: 0.3s;
 }
 
-.custom-form button:hover{
+.custom-form button:hover {
     background-color: grey;
 }
 
-.fotter{
+dialog {
+    margin: auto;
+    width: 100%;
+    max-width: 480px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 18px;
+
+    background: #fff;
+    color: #202020;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, .25);
+
+    animation: fade .25s ease;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, .45);
+    backdrop-filter: blur(4px);
+}
+
+dialog[open] {
+    animation: fade .25s ease;
+}
+
+@keyframes fade {
+
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 24px;
+
+    border-bottom:1px solid #ececec;
+}
+
+.modal-header h2{
+    font-size:28px;
+    font-weight:700;
+}
+
+.btn-fechar{
+    width:36px;
+    height:36px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#f5f5f5;
+
+    font-size:18px;
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.btn-fechar:hover{
+    background:#e7e7e7;
+}
+
+.pedido-form{
+    padding:24px;
+
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+}
+
+.produto-info h3{
+    font-size:24px;
+    margin-bottom:8px;
+}
+
+.produto-info p{
+    color:#666;
+    line-height:1.6;
+}
+
+.campo{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.campo label{
+    font-weight:600;
+}
+
+.campo input,
+.campo textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #d9d9d9;
+    border-radius:10px;
+
+    font-size:15px;
+
+    transition:.2s;
+}
+
+.campo input:focus,
+.campo textarea:focus{
+
+    outline:none;
+
+    border-color:#ea1d2c;
+
+    box-shadow:0 0 0 3px rgba(234,29,44,.12);
+
+}
+
+.resumo-pedido{
+
+    padding:18px;
+
+    background:#fafafa;
+
+    border-radius:12px;
+
+}
+
+.resumo-pedido div{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:10px 0;
+
+}
+
+.resumo-pedido hr{
+
+    border:none;
+
+    border-top:1px solid #ddd;
+
+    margin:15px 0;
+
+}
+
+.total{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+}
+
+.acoes{
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+.btn-cancelar{
+
+    flex:1;
+
+    padding:14px;
+
+    border:2px solid #ea1d2c;
+
+    border-radius:10px;
+
+    background:#fff;
+
+    color:#ea1d2c;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.btn-cancelar:hover{
+
+    background:#fff1f2;
+
+}
+
+.btn-confirmar{
+
+    flex:2;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#ea1d2c;
+
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.btn-confirmar:hover{
+
+    background:#c81623;
+
+}
+
+.fotter {
     background-color: #111111;
     color: #aaaaaa;
     padding: 30px 0;
