@@ -1,11 +1,13 @@
 <?php
 
-session_start();
+require "../config/conexao.php";
 
-require "conexao.php";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 
@@ -30,7 +32,7 @@ if (!$usuario) {
 
     $_SESSION["erro"] = "E-mail não encontrado.";
 
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 
@@ -38,7 +40,7 @@ if (!password_verify($password, $usuario["password_hash"])) {
 
     $_SESSION["erro"] = "Senha incorreta.";
 
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 
@@ -46,5 +48,5 @@ $_SESSION["id"] = $usuario["id"];
 $_SESSION["nome"] = $usuario["name"];
 $_SESSION["email"] = $usuario["email"];
 
-header("Location: index.php");
+header("Location: ../index.php");
 exit;

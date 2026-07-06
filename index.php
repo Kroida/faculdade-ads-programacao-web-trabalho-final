@@ -1,4 +1,4 @@
-<?php require "layout/header.php"; ?>
+<?php require "includes/header.php"; ?>
 
 <main>
     <section class="section-destaque" id="destaque1">
@@ -98,13 +98,7 @@
         </div>
     </section>
 
-    <!-- <section class="form-section" id="formulario">
-        <div class="container">
-            <a href="login.php">Login</a>
-            <a href="layout/logout.php">Logout</a>
-        </div>
-    </section> -->
-    
+    <section class="pre-foot-section" id="formulario"></section>
 
     <dialog id="modal" class="modal-pedido">
         <div class="modal-header">
@@ -156,4 +150,4 @@
     </dialog>
 </main>
 
-<?php require "layout/footer.php"; ?>
+<?php require "includes/footer.php"; ?>

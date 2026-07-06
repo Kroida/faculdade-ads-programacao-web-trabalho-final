@@ -25,7 +25,3 @@ CREATE TABLE users (
   INDEX idx_users_status (status),
   INDEX idx_users_deleted_at (deleted_at)
 ) ENGINE=InnoDB;
-
--- USE desgraca;
--- SHOW TABLES;
--- DESCRIBE users;

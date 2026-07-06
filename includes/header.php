@@ -31,7 +31,7 @@
 
                         <span>Olá, <?= htmlspecialchars($_SESSION["nome"]) ?> 👋</span>
 
-                        <a href="layout/logout.php" class="btn-header">Logout</a>
+                        <a href="auth/logout.php" class="btn-header">Logout</a>
 
                     </div>
 
@@ -43,7 +43,7 @@
 
             </div>
 
-            <img src="src/img/logo.jpg" alt="Logo UniFood">
+            <a href="index.php"><img src="src/img/logo.jpg" alt="Logo UniFood"></a>
 
             <p>Pediu? Chegou!</p>
 

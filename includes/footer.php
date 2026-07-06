@@ -4,7 +4,8 @@
         </div>
     </footer>
 
-    <script src="src/js/script.js"></script>
+    <script src="src/js/pedidos.js"></script>
+    <script src="src/js/login.js"></script>
 </body>
 
 </html>
