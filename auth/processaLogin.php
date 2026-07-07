@@ -11,8 +11,20 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
-$email = trim($_POST["email"]);
+$email = trim($_POST["email"] ?? "");
 $password = $_POST["password"];
+
+if ($email === "" || $password === "") {
+    $_SESSION["erro"] = "Preencha todos os campos.";
+    header("Location: ../login.php");
+    exit;
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION["erro"] = "E-mail inválido.";
+    header("Location: ../login.php");
+    exit;
+}
 
 $sql = "
 SELECT *
@@ -45,7 +57,8 @@ if (!password_verify($password, $usuario["password_hash"])) {
 }
 
 $_SESSION["id"] = $usuario["id"];
-$_SESSION["nome"] = $usuario["name"];
+$_SESSION["profile_image"] = $usuario["profile_image"];
+$_SESSION["name"] = $usuario["name"];
 $_SESSION["email"] = $usuario["email"];
 
 header("Location: ../index.php");

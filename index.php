@@ -123,6 +123,37 @@
                     placeholder="Ex.: sem cebola, molho à parte..."></textarea>
             </div>
 
+            <div class="campo">
+                <label>Telefone</label>
+                <input type="tel" name="phone" placeholder="Telefone" required>
+            </div>
+
+            <div class="campo">
+                <label>Endereço de entrega</label>
+                <input type="text" name="cep" placeholder="CEP" required>
+                <input type="text" name="street" placeholder="Rua" required>
+                <input type="text" name="number" placeholder="Número" required>
+                <input type="text" name="complement" placeholder="Complemento">
+                <input type="text" name="district" placeholder="Bairro" required>
+                <input type="text" name="city" placeholder="Cidade" required>
+                <input type="text" name="state" placeholder="Estado" maxlength="2" required>
+            </div>
+
+            <div class="campo">
+                <label>Forma de pagamento</label>
+                <select name="payment" required>
+                    <option value="">Selecione</option>
+                    <option value="credito">Cartão de Crédito</option>
+                    <option value="debito">Cartão de Débito</option>
+                    <option value="pix">Pix</option>
+                    <option value="dinheiro">Dinheiro</option>
+                </select>
+                <input type="text" name="card_name" placeholder="Nome impresso no cartão">
+                <input type="text" name="card_number" placeholder="Número do cartão">
+                <input type="text" name="expiry" placeholder="MM/AA">
+                <input type="text" name="cvv" placeholder="CVV">
+            </div>
+
             <div class="resumo-pedido">
                 <div>
                     <span>Produto</span>

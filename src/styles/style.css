@@ -1,3 +1,9 @@
+/*
+==============================
+=========== RESET ============
+==============================
+*/
+
 * {
     margin: 0;
     padding: 0;
@@ -25,6 +31,7 @@ body {
 
 .header-top h1 {
     margin: 0;
+    cursor: default;
 }
 
 .usuario {
@@ -37,6 +44,15 @@ body {
     font-size: 15px;
     font-weight: 600;
     color: #fff;
+}
+
+.usuario .btn-usuario img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 15px 0;
+    object-fit: cover;
+    box-shadow: o 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .btn-header {
@@ -74,7 +90,7 @@ body {
 
 /*
 ==============================
-======= FIM HEADER ===========
+======= CONTAINER ============
 ==============================
 */
 
@@ -108,14 +124,31 @@ body {
 .banner p {
     font-size: 20px;
     font-weight: 500;
+    cursor: default;
 }
 
-/*Sections*/
+/*
+==============================
+========== SECTIONS ==========
+==============================
+*/
 
 .section-destaque {
     padding: 80px 0;
     border-bottom: 1px solid white
 }
+
+/* .section-dados {
+    padding: 80px 0;
+    min-height: 53vh;
+    max-height: 100vh;
+} */
+
+/*
+==============================
+===== CONFIG SECTIONS ========
+==============================
+*/
 
 .bg-light {
     background-color: #fafafa;
@@ -201,6 +234,7 @@ body {
     font-weight: bold;
     border-radius: 8px;
     transition: background-color 0.2s;
+    cursor: pointer;
 }
 
 .btn-comprar:hover {
@@ -232,7 +266,11 @@ body {
     object-fit: cover;
 }
 
-/*footer e form*/
+/*
+==============================
+============ FORM ============
+==============================
+*/
 
 .form-section {
     background-color: #333333;
@@ -244,12 +282,10 @@ body {
 
 .form-section .container .btn-signup {
     display: block;
+    width: fit-content;
     color: rgb(234, 29, 44);
-    margin-top: 10px;
+    margin: 10px auto auto auto;
     text-decoration: underline;
-}
-
-.form-section .container .btn-singup:hover {
     cursor: pointer;
 }
 
@@ -443,6 +479,7 @@ dialog[open] {
 }
 
 .campo input,
+.campo select,
 .campo textarea {
 
     width: 100%;
@@ -574,7 +611,7 @@ dialog[open] {
 
 /*
 ==============================
-======= FIM DIALOG ===========
+=========== LOGIN ============
 ==============================
 */
 
@@ -625,6 +662,57 @@ dialog[open] {
     text-align: center;
 
 }
+
+/*
+==============================
+====== DADOS CLIENTE =========
+==============================
+*/
+
+.foto-perfil{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.foto-perfil img{
+    width:140px;
+    height:140px;
+
+    border-radius:50%;
+    object-fit:cover;
+
+    border:4px solid #fff;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+.btn-upload{
+    display:inline-block;
+
+    padding:12px 18px;
+
+    background:#EA1D2C;
+    color:#fff;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.btn-upload:hover{
+    background:#c91624;
+}
+
+/*
+==============================
+=========== FOOTER ===========
+==============================
+*/
 
 .pre-foot-section {
     background-color: #333333;
