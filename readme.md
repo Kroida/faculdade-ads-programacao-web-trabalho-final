@@ -8,3 +8,4 @@
 
 * cntrl + f5 para atualizar css
 * grant all privilegies caso o xamp bugue
+* GRANT ALL PRIVILEGES ON desgraca.* TO 'goku'@'localhost';

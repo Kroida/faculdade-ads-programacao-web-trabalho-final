@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $name = trim($_POST["name"] ?? "");
 $email = trim($_POST["email"] ?? "");
 $rawPassword = $_POST["password"] ?? "";
+$profileImage = "uploads/default/default.jpg";
 
 if ($name === "" || $email === "" || $rawPassword === "") {
     $_SESSION["erro"] = "Preencha todos os campos.";
@@ -36,11 +37,11 @@ $sql = "
 
 INSERT INTO users
 
-(name, email, password_hash)
+(name, email, password_hash, profile_image)
 
 VALUES
 
-(:name, :email, :password)
+(:name, :email, :password, :profile_image)
 
 ";
 
@@ -50,7 +51,8 @@ try {
     $stmt->execute([
         ":name" => $name,
         ":email" => $email,
-        ":password" => $passwordHash
+        ":password" => $passwordHash,
+        ":profile_image" => $profileImage
     ]);
 
     $_SESSION["sucesso"] = "Conta criada com sucesso!";

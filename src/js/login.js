@@ -1,13 +1,43 @@
-const login = document.getElementById("login")
-const cadastro = document.getElementById("signup");
-const botao = document.querySelector(".btn-signup");
+document.addEventListener("DOMContentLoaded", function() {
+    // Inicializa cada módulo separadamente
+    initFotoPreview();
+    initAuthToggle();
+});
 
-botao.addEventListener("click", (event) => {
-    event.preventDefault();
-    hide();
-})
+function initFotoPreview() {
+    const inputFoto = document.getElementById("input-foto");
+    const previewFoto = document.getElementById("preview-foto");
 
-function hide() {
-    login.hidden = true;
-    cadastro.hidden = false;
+    if (!inputFoto || !previewFoto) {
+        console.warn("Elementos de foto não encontrados");
+        return;
+    }
+
+    inputFoto.addEventListener("change", (event) => {
+        const arquivo = event.target.files[0];
+        if (!arquivo) return;
+
+        const leitor = new FileReader();
+        leitor.onload = (e) => {
+            previewFoto.src = e.target.result;
+        };
+        leitor.readAsDataURL(arquivo);
+    });
+}
+
+function initAuthToggle() {
+    const botaoSignup = document.querySelector(".btn-signup");
+    const login = document.getElementById("login");
+    const cadastro = document.getElementById("signup");
+
+    if (!botaoSignup) {
+        console.warn(".btn-signup não encontrado");
+        return;
+    }
+
+    botaoSignup.addEventListener("click", (event) => {
+        event.preventDefault();
+        login.hidden = true;
+        cadastro.hidden = false;
+    });
 }
