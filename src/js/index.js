@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
     pedidoFeitoAlert();
-    pedidos();
+    checkin();
     setupModalCloseButtons();
     mostrarOpcaoPagamento(); // ✅ Deixa por último
 });
 
-function pedidos() {
+function checkin() {
     const produtos = {
         biguni: {
             nome: "BigUni",
@@ -31,7 +31,7 @@ function pedidos() {
     let produtoAtual = null;
 
     inputQuantidade.addEventListener("input", () => {
-        pedidosAtualizarTotal(produtoAtual, modalPrecoTotal);
+        checkinAtualizarTotal(produtoAtual, modalPrecoTotal);
     });
 
     const botoes = document.querySelectorAll(".btn-comprar");
@@ -46,14 +46,14 @@ function pedidos() {
             modalDescricao.textContent = produtoAtual.descricao;
             modalPreco.textContent = `R$ ${produtoAtual.preco.toFixed(2)}`;
 
-            pedidosAtualizarTotal(produtoAtual, modalPrecoTotal);
+            checkinAtualizarTotal(produtoAtual, modalPrecoTotal);
 
             modal.showModal();
         });
     });
 }
 
-function pedidosAtualizarTotal(produtoAtual, modalPrecoTotal) {
+function checkinAtualizarTotal(produtoAtual, modalPrecoTotal) {
     const quantidade = Number(document.getElementById("quantidade").value);
     let total = produtoAtual.preco * quantidade;
 
