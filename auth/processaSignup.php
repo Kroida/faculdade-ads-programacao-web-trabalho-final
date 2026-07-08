@@ -55,9 +55,15 @@ try {
         ":profile_image" => $profileImage
     ]);
 
+    $userId = $pdo->lastInsertId();
+    $_SESSION["id"] = $userId;
+    $_SESSION["profile_image"] = $profileImage;
+    $_SESSION["name"] = $name;
+    $_SESSION["email"] = $email;
+
     $_SESSION["sucesso"] = "Conta criada com sucesso!";
 
-    header("Location: ../login.php");
+    header("Location: ../index.php");
     exit;
 } catch (PDOException $e) {
     if ($e->getCode() === "23000") { // violação de constraint UNIQUE
