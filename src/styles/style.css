@@ -22,16 +22,28 @@ body {
 ==============================
 */
 
-.header-top {
+.header {
+    background-color: #ea1d2c;
+    color: white;
+    padding: 20px 20px 20px 20px;
+}
+
+.header-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
 }
 
-.header-top h1 {
+.header-info h1 {
+    color: white;
     margin: 0;
-    cursor: default;
+    margin-bottom: 10px;
+    font-size: 48px;
+    cursor: pointer;
+}
+
+.header-info a {
+    text-decoration: none;
 }
 
 .usuario {
@@ -73,8 +85,6 @@ body {
     font-size: 15px;
     font-weight: 700;
 
-    text-decoration: none;
-
     transition: .25s;
 }
 
@@ -88,28 +98,10 @@ body {
     transform: translateY(0);
 }
 
-/*
-==============================
-======= CONTAINER ============
-==============================
-*/
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    text-align: center;
-}
-
 .banner {
     background-color: #ea1d2c;
     color: white;
     padding: 20px 20px 80px 20px;
-}
-
-.banner h1 {
-    font-size: 48px;
-    margin-bottom: 10px;
 }
 
 .banner img {
@@ -125,6 +117,19 @@ body {
     font-size: 20px;
     font-weight: 500;
     cursor: default;
+}
+
+/*
+==============================
+======= CONTAINER ============
+==============================
+*/
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
 }
 
 /*
@@ -275,9 +280,8 @@ body {
 .form-section {
     background-color: #333333;
     color: white;
-    padding: 80px 0;
-    min-height: 55vh;
-    max-height: 150vh;
+    padding: clamp(40px, 8vw, 80px) 0;
+    min-height: 83vh;
 }
 
 .form-section .container .btn-signup {

@@ -1,6 +1,14 @@
 <?php require "includes/header.php"; ?>
 
 <main>
+    <section class="banner" id="banner">
+        <div class="container">
+            <img src="src/img/logo.jpg" alt="Logo UniFood">
+
+            <p>Pediu? Chegou!</p>
+        </div>
+    </section>
+
     <section class="section-destaque" id="destaque1">
         <div class="container-flex">
             <div class="destaque-texto">

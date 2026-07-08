@@ -18,12 +18,11 @@
 
     ?>
 
-    <header class="banner" id="banner">
+    <header class="header">
         <div class="container">
+            <div class="header-info">
 
-            <div class="header-top">
-
-                <h1>UniFood</h1>
+                <a href="index.php"><h1>UniFood</h1></a>
 
                 <?php if (isset($_SESSION["id"])): ?>
 
@@ -43,10 +42,5 @@
                 <?php endif; ?>
 
             </div>
-
-            <a href="index.php"><img src="src/img/logo.jpg" alt="Logo UniFood"></a>
-
-            <p>Pediu? Chegou!</p>
-
         </div>
     </header>
