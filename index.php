@@ -1,4 +1,17 @@
-<?php require "includes/header.php"; ?>
+<?php
+$pedidoFeito = false;
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_SESSION["pedidofeito"])) {
+    $pedidoFeito = true;
+    unset($_SESSION["pedidofeito"]);
+}
+
+require "includes/header.php";
+?>
 
 <main>
     <section class="banner" id="banner">
@@ -114,7 +127,7 @@
             <button type="button" id="fechar" class="btn-fechar">✕</button>
         </div>
 
-        <form class="pedido-form">
+        <form action="auth/auth.php" method="POST" class="pedido-form">
             <div class="produto-info">
                 <h3 id="modal-nome"></h3>
                 <p id="modal-descricao"></p>
@@ -154,12 +167,11 @@
                     <option value="credito">Cartão de Crédito</option>
                     <option value="debito">Cartão de Débito</option>
                     <option value="pix">Pix</option>
-                    <option value="dinheiro">Dinheiro</option>
                 </select>
-                <input type="text" name="card_name" placeholder="Nome impresso no cartão">
-                <input type="text" name="card_number" placeholder="Número do cartão">
-                <input type="text" name="expiry" placeholder="MM/AA">
-                <input type="text" name="cvv" placeholder="CVV">
+                <input class="input-cartao" type="text" name="card_name" placeholder="Nome impresso no cartão" hidden>
+                <input class="input-cartao" type="text" name="card_number" placeholder="Número do cartão" hidden>
+                <input class="input-cartao" type="text" name="expiry" placeholder="MM/AA" hidden>
+                <input class="input-cartao" type="text" name="cvv" placeholder="CVV" hidden>
             </div>
 
             <div class="resumo-pedido">
