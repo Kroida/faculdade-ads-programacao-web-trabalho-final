@@ -34,7 +34,8 @@
             <h2>Olá, <?= htmlspecialchars($_SESSION["name"]) ?> 👋</h2>
             <form action="auth/processaUpdate.php" method="POST" enctype="multipart/form-data" class="custom-form">
                 <div class="foto-perfil">
-                    <img src="<?= htmlspecialchars($_SESSION["profile_image"]) ?>" alt="Foto do usuário" id="preview-foto">
+                    <img src="<?= htmlspecialchars($_SESSION["profile_image"]) ?>" alt="Foto do usuário"
+                        id="preview-foto">
                     <label for="input-foto" class="btn-upload">Alterar foto</label>
                     <input type="file" id="input-foto" name="photo" accept="image/png,image/jpeg,image/webp" hidden>
                 </div>
@@ -46,8 +47,27 @@
 
                 <button id="btn-update" type="submit">Salvar alterações</button>
             </form>
+            <a class="btn-delete">Excluir conta</a>
         </div>
     </section>
+
+    <dialog id="modal" class="modal-pedido">
+        <div class="modal-header">
+            <h2>Deletar conta</h2>
+            <button type="button" id="fechar" class="btn-fechar">✕</button>
+        </div>
+
+        <form action="auth/processaDelete.php" method="POST" class="pedido-form">
+            <div class="produto-info">
+                <p id="modal-descricao">Tem certeza que deseja deletar sua conta?</p>
+            </div>
+
+            <div class="acoes">
+                <button type="button" id="cancelar" class="btn-cancelar">Cancelar</button>
+                <button type="submit" class="btn-confirmar">🗑️ Confirmar exclusão</button>
+            </div>
+        </form>
+    </dialog>
 </main>
 
 <?php require "includes/footer.php"; ?>

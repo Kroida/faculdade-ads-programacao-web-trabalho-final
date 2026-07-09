@@ -673,43 +673,52 @@ dialog[open] {
 ==============================
 */
 
-.foto-perfil{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:15px;
-    margin-bottom:20px;
+.foto-perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-.foto-perfil img{
-    width:140px;
-    height:140px;
+.foto-perfil img {
+    width: 140px;
+    height: 140px;
 
-    border-radius:50%;
-    object-fit:cover;
+    border-radius: 50%;
+    object-fit: cover;
 
-    border:4px solid #fff;
+    border: 4px solid #fff;
 
-    box-shadow:0 5px 20px rgba(0,0,0,.15);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .15);
 }
 
-.btn-upload{
-    display:inline-block;
+.btn-upload {
+    display: inline-block;
 
-    padding:12px 18px;
+    padding: 12px 18px;
 
-    background:#EA1D2C;
-    color:#fff;
+    background: #EA1D2C;
+    color: #fff;
 
-    border-radius:8px;
+    border-radius: 8px;
 
-    cursor:pointer;
+    cursor: pointer;
 
-    transition:.25s;
+    transition: .25s;
 }
 
-.btn-upload:hover{
-    background:#c91624;
+.btn-upload:hover {
+    background: #c91624;
+}
+
+.form-section .container .btn-delete {
+    display: block;
+    width: fit-content;
+    color: rgb(234, 29, 44);
+    margin: 10px auto auto auto;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 /*

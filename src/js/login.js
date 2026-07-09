@@ -1,7 +1,9 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Inicializa cada módulo separadamente
     initFotoPreview();
     initAuthToggle();
+    deleteAccount();
+    setupModalCloseButtons();
 });
 
 function initFotoPreview() {
@@ -39,5 +41,35 @@ function initAuthToggle() {
         event.preventDefault();
         login.hidden = true;
         cadastro.hidden = false;
+    });
+}
+
+function deleteAccount() {
+    const botaoDelete = document.querySelector(".btn-delete");
+    const modal = document.getElementById("modal");
+    const modalDescricao = document.getElementById("modal-descricao");
+
+    if (!botaoDelete) {
+        console.warn(".btn-signup não encontrado");
+        return;
+    }
+
+    botaoDelete.addEventListener("click", () => {
+        event.preventDefault();
+        modal.showModal();
+    })
+}
+
+function setupModalCloseButtons() {
+    const modal = document.getElementById("modal");
+    const botaoFechar = document.getElementById("fechar");
+    const botaoCancelar = document.getElementById("cancelar");
+
+    botaoFechar.addEventListener("click", () => {
+        modal.close();
+    });
+
+    botaoCancelar.addEventListener("click", () => {
+        modal.close();
     });
 }
