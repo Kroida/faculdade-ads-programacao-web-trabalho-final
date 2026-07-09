@@ -13,12 +13,28 @@ function checkin() {
             combo: 37.90,
             descricao: "2 hamburgeres com alface, cebola, picles e pao com gergelim, e aquele molho especial da marca do palhaço."
         },
+        BoxCasalUni: {
+            nome: "BoxCasalUni",
+            preco: 54.90,
+            descricao: "A combinação perfeita para dividir: 2 hamburger Salada de forma caprichada, com porção de batata."
+        },
         kids: {
             nome: "KidsUni",
             preco: 21.90,
             combo: 28.90,
             descricao: "A opção perfeita para nossos pequenos, pão, carne e queijo com toque da nossa maionese especial."
-        }
+        },
+        MegaUltraUni: {
+            nome: "MegaUltraUni",
+            preco: 39.90,
+            combo: 43.90,
+            descricao: "A opção perfeita para quebrar o seu jejum, com 4 carnes e muitoo queijo cheddar."
+        },
+        BrownieUni: {
+            nome: "BrownieUni",
+            preco: 14.90,
+            descricao: "A opção perfeita para uma sobremesa, pedacinhos de brownie com nossa calda de chocolate a parte."
+        },
     };
 
     const modal = document.getElementById("modal");

@@ -46,13 +46,13 @@ require "includes/header.php";
         <div class="container-flex">
             <div class="destaque-texto">
                 <span class="badge-tag">Melhor Custo-Beneficio</span>
-                <h2>Box Casal Uni</h2>
+                <h2>BoxCasalUni</h2>
                 <p>A combinação perfeita para dividir: 2 hamburger Salada de forma caprichada, com porção de batata.
                 </p>
                 <div class="preco-casal">
                     <span class="preco-atual">R$ 54,90</span>
                 </div>
-                <a class="btn-comprar">Adicionar ao Pedido</a>
+                <a class="btn-comprar" data-id="BoxCasalUni">Adicionar ao Pedido</a>
             </div>
 
             <div class="destaque-img1">
@@ -91,7 +91,7 @@ require "includes/header.php";
                     <span class="preco-atual">R$ 39,90</span>
                     <span class="Preco-Combo">43,90</span>
                 </div>
-                <a class="btn-comprar">Adicionar ao Pedido</a>
+                <a class="btn-comprar" data-id="MegaUltraUni">Adicionar ao Pedido</a>
             </div>
 
             <div class="destaque-img1">
@@ -110,7 +110,7 @@ require "includes/header.php";
                 <div class="preco-Brownie">
                     <span class="preco-atual">R$ 14,90</span>
                 </div>
-                <a class="btn-comprar">Adicionar ao Pedido</a>
+                <a class="btn-comprar" data-id="BrownieUni">Adicionar ao Pedido</a>
             </div>
 
             <div class="destaque-img1">
