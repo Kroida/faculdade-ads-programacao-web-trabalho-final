@@ -34,32 +34,39 @@ WHERE email = :email
 
 $stmt = $pdo->prepare($sql);
 
-$stmt->execute([
-    ":email" => $email
-]);
+try {
+    $stmt->execute([
+        ":email" => $email
+    ]);
 
-$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$usuario) {
+    if (!$usuario) {
 
-    $_SESSION["erro"] = "E-mail não encontrado.";
+        $_SESSION["erro"] = "E-mail não encontrado.";
+
+        header("Location: ../login.php");
+        exit;
+    }
+
+    if (!password_verify($password, $usuario["password_hash"])) {
+
+        $_SESSION["erro"] = "Senha incorreta.";
+
+        header("Location: ../login.php");
+        exit;
+    }
+
+    $_SESSION["id"] = $usuario["id"];
+    $_SESSION["profile_image"] = $usuario["profile_image"];
+    $_SESSION["name"] = $usuario["name"];
+    $_SESSION["email"] = $usuario["email"];
+
+    header("Location: ../index.php");
+    exit;
+} catch (PDOException $e) {
+    $_SESSION["erro"] = "Erro ao tentar fazer login. Tente novamente.";
 
     header("Location: ../login.php");
     exit;
 }
-
-if (!password_verify($password, $usuario["password_hash"])) {
-
-    $_SESSION["erro"] = "Senha incorreta.";
-
-    header("Location: ../login.php");
-    exit;
-}
-
-$_SESSION["id"] = $usuario["id"];
-$_SESSION["profile_image"] = $usuario["profile_image"];
-$_SESSION["name"] = $usuario["name"];
-$_SESSION["email"] = $usuario["email"];
-
-header("Location: ../index.php");
-exit;
