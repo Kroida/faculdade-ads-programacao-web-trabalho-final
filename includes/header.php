@@ -31,7 +31,7 @@
                         <span>Olá, <?= htmlspecialchars($_SESSION["name"]) ?> 👋</span>
 
                         <a href="auth/logout.php" class="btn-header">Logout</a>
-                        <a href="dadosCliente.php" class="btn-usuario"><img src="<?= htmlspecialchars($_SESSION["profile_image"]) ?>"></a>
+                        <a href="dadosCliente.php" class="btn-usuario" title="Mostrar dados"><img src="<?= htmlspecialchars($_SESSION["profile_image"]) ?>"></a>
 
                     </div>
 
