@@ -1,10 +1,12 @@
-CREATE DATABASE IF NOT EXISTS desgraca CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- As partes comentadas são para caso você esteja usando xamp
 
-CREATE USER IF NOT EXISTS 'goku' @'localhost' IDENTIFIED BY '4321';
+-- CREATE DATABASE IF NOT EXISTS desgraca CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON desgraca.* TO 'goku' @'localhost';
+-- CREATE USER IF NOT EXISTS 'goku' @'localhost' IDENTIFIED BY '4321';
 
-FLUSH PRIVILEGES;
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON desgraca.* TO 'goku' @'localhost';
+
+-- FLUSH PRIVILEGES;
 
 USE desgraca;
 

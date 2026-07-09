@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: unifood_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: desgraca
+      MYSQL_USER: goku
+      MYSQL_PASSWORD: "4321"
+    ports:
+      - "3307:3306"
+    volumes:
+      - unifood_mysql_data:/var/lib/mysql
+      - ./database/desgraca.sql:/docker-entrypoint-initdb.d/desgraca.sql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: unifood_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+volumes:
+  unifood_mysql_data:
