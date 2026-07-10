@@ -108,16 +108,68 @@ Inicie o Apache no XAMPP e acesse:
 http://localhost/trabaio_pweb
 ```
 
-## 🔐 Acesso padrão
+## 🔐 Acesso ao administrador
 
-Administrador principal:
+O painel administrativo é acessado pelo usuário administrador principal do sistema.
+
+Credenciais padrão:
 
 ```text
 E-mail: goku@gmail.com
 Senha: 4321
 ```
 
-O administrador principal possui `id = 1` e não pode ser editado nem deletado pelo painel.
+Depois de fazer login, acesse a área administrativa pelo botão **Opções de administrador** na tela de dados do cliente ou diretamente pela URL:
+
+```text
+http://localhost/trabaio_pweb/adm.php
+```
+
+O administrador principal possui `id = 1`. Por segurança, esse usuário é protegido pelo sistema e **não pode ser editado nem deletado** pelo painel administrativo.
+
+### Funcionalidades do administrador
+
+No `adm.php`, o administrador consegue gerenciar usuários e os destaques exibidos na página inicial.
+
+#### CRUD de usuários
+
+O painel permite:
+
+- Listar todos os usuários cadastrados.
+- Cadastrar novos usuários diretamente pela página administrativa.
+- Editar nome, e-mail, senha e status dos usuários.
+- Deletar usuários comuns do banco de dados.
+- Bloquear edição e exclusão do administrador principal `id = 1`.
+
+Os status disponíveis para usuários são:
+
+```text
+active   → usuário ativo
+inactive → usuário inativo
+banned   → usuário banido
+```
+
+#### CRUD das sections destaque
+
+O administrador também consegue controlar dinamicamente as sections da home, ou seja, os blocos:
+
+```html
+<section class="section-destaque">
+```
+
+Pelo painel, é possível:
+
+- Listar os destaques existentes.
+- Editar título, descrição, badge, preço e preço de combo.
+- Alterar o caminho da imagem ou enviar uma nova imagem.
+- Definir texto alternativo da imagem.
+- Escolher a ordem de exibição.
+- Ativar ou desativar uma section.
+- Definir se a section usa fundo claro.
+- Definir se a imagem aparece invertida em relação ao texto.
+- Adicionar novas sections destaque sem editar manualmente o `index.php`.
+
+Quando uma section é alterada no painel, a mudança é salva na tabela `featured_sections` e aparece automaticamente na página inicial.
 
 ## 🗄️ Banco de dados
 
