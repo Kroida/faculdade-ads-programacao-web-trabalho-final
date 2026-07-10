@@ -579,3 +579,186 @@ function updateDestaque(PDO $pdo, $id): array
     ];
 }
 
+function insertDestaque(PDO $pdo): array
+{
+    $htmlId = trim($_POST["html_id"] ?? "");
+    $productKey = trim($_POST["product_key"] ?? "");
+    $badgeText = trim($_POST["badge_text"] ?? "");
+    $title = trim($_POST["title"] ?? "");
+    $description = trim($_POST["description"] ?? "");
+    $price = str_replace(",", ".", trim($_POST["price"] ?? ""));
+    $comboPrice = str_replace(",", ".", trim($_POST["combo_price"] ?? ""));
+    $imagePath = trim($_POST["image_path"] ?? "");
+    $imageAlt = trim($_POST["image_alt"] ?? "");
+    $displayOrder = filter_var($_POST["display_order"] ?? 0, FILTER_VALIDATE_INT);
+
+    $isLight = isset($_POST["is_light"]) ? 1 : 0;
+    $isReverse = isset($_POST["is_reverse"]) ? 1 : 0;
+    $isActive = isset($_POST["is_active"]) ? 1 : 0;
+
+    $erros = [];
+
+    $temUpload = isset($_FILES["image_file"])
+        && $_FILES["image_file"]["error"] !== UPLOAD_ERR_NO_FILE;
+
+    if ($htmlId === "") {
+        $erros[] = "Informe o ID HTML da seção.";
+    }
+
+    if ($htmlId !== "" && !preg_match('/^[a-zA-Z0-9_-]+$/', $htmlId)) {
+        $erros[] = "O ID HTML deve conter apenas letras, números, hífen ou underline.";
+    }
+
+    if ($productKey === "") {
+        $erros[] = "Informe a chave do produto.";
+    }
+
+    if ($productKey !== "" && !preg_match('/^[a-zA-Z0-9_-]+$/', $productKey)) {
+        $erros[] = "A chave do produto deve conter apenas letras, números, hífen ou underline.";
+    }
+
+    if ($badgeText === "") {
+        $erros[] = "Informe o texto da badge.";
+    }
+
+    if (strlen($title) < 2) {
+        $erros[] = "Informe um título válido.";
+    }
+
+    if (strlen($description) < 10) {
+        $erros[] = "A descrição precisa ter pelo menos 10 caracteres.";
+    }
+
+    if (!is_numeric($price) || (float) $price <= 0) {
+        $erros[] = "Informe um preço válido.";
+    }
+
+    if ($comboPrice !== "" && (!is_numeric($comboPrice) || (float) $comboPrice <= 0)) {
+        $erros[] = "Informe um preço de combo válido ou deixe em branco.";
+    }
+
+    if ($imagePath === "" && !$temUpload) {
+        $erros[] = "Informe o caminho da imagem ou envie uma nova imagem.";
+    }
+
+    if ($imageAlt === "") {
+        $imageAlt = $title;
+    }
+
+    if ($displayOrder === false) {
+        $displayOrder = 0;
+    }
+
+    if (!empty($erros)) {
+        return [
+            "ok" => false,
+            "mensagem" => "",
+            "erros" => $erros
+        ];
+    }
+
+    try {
+        $pdo->beginTransaction();
+
+        $sql = "
+            INSERT INTO featured_sections (
+                html_id,
+                product_key,
+                badge_text,
+                title,
+                description,
+                price,
+                combo_price,
+                image_path,
+                image_alt,
+                is_light,
+                is_reverse,
+                is_active,
+                display_order
+            ) VALUES (
+                :html_id,
+                :product_key,
+                :badge_text,
+                :title,
+                :description,
+                :price,
+                :combo_price,
+                :image_path,
+                :image_alt,
+                :is_light,
+                :is_reverse,
+                :is_active,
+                :display_order
+            )
+        ";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->execute([
+            ":html_id" => $htmlId,
+            ":product_key" => $productKey,
+            ":badge_text" => $badgeText,
+            ":title" => $title,
+            ":description" => $description,
+            ":price" => (float) $price,
+            ":combo_price" => $comboPrice === "" ? null : (float) $comboPrice,
+            ":image_path" => $imagePath !== "" ? $imagePath : "uploads/destaques/temporario.jpg",
+            ":image_alt" => $imageAlt,
+            ":is_light" => $isLight,
+            ":is_reverse" => $isReverse,
+            ":is_active" => $isActive,
+            ":display_order" => $displayOrder
+        ]);
+
+        $novoId = (int) $pdo->lastInsertId();
+
+        if ($temUpload) {
+            $upload = uploadImagemDestaque($novoId);
+
+            if (!$upload["ok"]) {
+                $pdo->rollBack();
+
+                return [
+                    "ok" => false,
+                    "mensagem" => "",
+                    "erros" => [$upload["erro"]]
+                ];
+            }
+
+            $imagePath = $upload["path"];
+
+            $sqlImagem = "
+                UPDATE featured_sections
+                SET image_path = :image_path
+                WHERE id = :id
+            ";
+
+            $stmtImagem = $pdo->prepare($sqlImagem);
+
+            $stmtImagem->execute([
+                ":image_path" => $imagePath,
+                ":id" => $novoId
+            ]);
+        }
+
+        $pdo->commit();
+
+        return [
+            "ok" => true,
+            "mensagem" => "Destaque cadastrado com sucesso!",
+            "erros" => []
+        ];
+    } catch (PDOException $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+
+        return [
+            "ok" => false,
+            "mensagem" => "",
+            "erros" => [
+                "Erro ao cadastrar destaque. Verifique se o ID HTML ou a chave do produto já existem."
+            ]
+        ];
+    }
+}

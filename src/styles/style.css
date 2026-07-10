@@ -1078,6 +1078,52 @@ dialog[open] {
     transform: translateY(-1px);
 }
 
+.criar-destaque-box {
+    margin: 24px 0 32px;
+    padding: 20px;
+
+    background: #f9fafb;
+    border: 1px solid #eeeeee;
+    border-radius: 14px;
+
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.criar-destaque-box summary {
+    list-style: none;
+}
+
+.criar-destaque-box summary::-webkit-details-marker {
+    display: none;
+}
+
+.btn-criar-destaque {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+
+    padding: 14px 20px;
+
+    background: #ea1d2c;
+    color: white;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.btn-criar-destaque:hover {
+    background: #c91624;
+    transform: translateY(-1px);
+}
+
+.criar-destaque-box[open] .btn-criar-destaque {
+    margin-bottom: 20px;
+}
+
 /* ========================================================================== 
    09. FOOTER
    ========================================================================== */

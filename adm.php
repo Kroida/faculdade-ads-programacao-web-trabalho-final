@@ -56,6 +56,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["acao"])) {
         header("Location: adm.php");
         exit;
     }
+
+    if ($_POST["acao"] === "cadastrar_destaque") {
+        $resultado = insertDestaque($pdo);
+
+        if ($resultado["ok"]) {
+            $_SESSION["sucesso"] = $resultado["mensagem"];
+        } else {
+            $_SESSION["erro"] = implode("<br>", $resultado["erros"]);
+        }
+
+        header("Location: adm.php#destaques-admin");
+        exit;
+    }
 }
 
 require "includes/header.php";
@@ -212,7 +225,98 @@ require "includes/header.php";
                     <p>Altere os cards abaixo e a página inicial muda automaticamente.</p>
                 </div>
 
-                <?php foreach (listDestaques($pdo) as $destaque): ?>
+                <?php
+                $destaques = listDestaques($pdo);
+                $proximaOrdem = count($destaques) + 1;
+                ?>
+
+                <details class="criar-destaque-box">
+                    <summary class="btn-criar-destaque">
+                        ➕ Adicionar nova section destaque
+                    </summary>
+
+                    <form method="POST" enctype="multipart/form-data" class="form-destaque-admin">
+                        <input type="hidden" name="acao" value="cadastrar_destaque">
+
+                        <div class="campo-admin pequeno">
+                            <label>ID HTML</label>
+                            <input type="text" name="html_id" placeholder="ex: destaque-6" required>
+                        </div>
+
+                        <div class="campo-admin pequeno">
+                            <label>Chave do produto</label>
+                            <input type="text" name="product_key" placeholder="ex: PizzaUni" required>
+                        </div>
+
+                        <div class="campo-admin">
+                            <label>Badge</label>
+                            <input type="text" name="badge_text" placeholder="ex: Novidade da semana" required>
+                        </div>
+
+                        <div class="campo-admin">
+                            <label>Título</label>
+                            <input type="text" name="title" placeholder="ex: PizzaUni" required>
+                        </div>
+
+                        <div class="campo-admin campo-full">
+                            <label>Descrição</label>
+                            <textarea name="description" rows="4" placeholder="Descrição do produto..." required></textarea>
+                        </div>
+
+                        <div class="campo-admin pequeno">
+                            <label>Preço</label>
+                            <input type="text" name="price" placeholder="ex: 29,90" required>
+                        </div>
+
+                        <div class="campo-admin pequeno">
+                            <label>Preço combo</label>
+                            <input type="text" name="combo_price" placeholder="opcional">
+                        </div>
+
+                        <div class="campo-admin campo-full">
+                            <label>Caminho da imagem</label>
+                            <input type="text" name="image_path" placeholder="ex: src/img/produto.jpg">
+                        </div>
+
+                        <div class="campo-admin campo-full">
+                            <label>Ou envie uma nova imagem</label>
+                            <input type="file" name="image_file" accept="image/png,image/jpeg,image/webp">
+                        </div>
+
+                        <div class="campo-admin campo-full">
+                            <label>Texto alternativo da imagem</label>
+                            <input type="text" name="image_alt" placeholder="ex: Foto do produto">
+                        </div>
+
+                        <div class="campo-admin pequeno">
+                            <label>Ordem</label>
+                            <input type="number" name="display_order" value="<?= htmlspecialchars($proximaOrdem) ?>">
+                        </div>
+
+                        <div class="checks-destaque campo-full">
+                            <label>
+                                <input type="checkbox" name="is_light" value="1">
+                                Fundo claro
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="is_reverse" value="1">
+                                Imagem à esquerda
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="is_active" value="1" checked>
+                                Ativo
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn-salvar-destaque">
+                            ➕ Cadastrar destaque
+                        </button>
+                    </form>
+                </details>
+
+                <?php foreach ($destaques as $destaque): ?>
                     <article class="admin-destaque-card">
                         <div class="admin-destaque-preview">
                             <section class="<?= htmlspecialchars(classesDestaque($destaque)) ?>" id="preview-<?= htmlspecialchars($destaque["html_id"]) ?>">
