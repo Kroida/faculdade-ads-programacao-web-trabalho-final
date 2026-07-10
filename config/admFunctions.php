@@ -3,7 +3,10 @@
 require_once __DIR__ . "/conexao.php";
 
 /**
- * Valida ID numérico.
+ * Valida se um valor recebido pode ser usado como ID numérico positivo.
+ *
+ * Retorna 0 quando o valor não é um inteiro válido. Isso evita repetir a mesma
+ * validação em funções de busca, edição e exclusão.
  */
 function validarId($id): int
 {
@@ -13,12 +16,15 @@ function validarId($id): int
 }
 
 /**
- * Lista todos os usuários ativos, ignorando contas deletadas.
+ * Lista todos os usuários disponíveis para o painel administrativo.
+ *
+ * Usuários marcados com `deleted_at` são ignorados, pois representam contas
+ * removidas logicamente pelo próprio usuário.
  */
 function listUsers(PDO $pdo): array
 {
     $sql = "
-        SELECT 
+        SELECT
             id,
             name,
             email,
@@ -36,7 +42,10 @@ function listUsers(PDO $pdo): array
 }
 
 /**
- * Busca um usuário pelo ID.
+ * Busca um único usuário pelo ID.
+ *
+ * Retorna `null` quando o ID é inválido, quando o usuário não existe ou quando a
+ * conta já foi marcada como excluída.
  */
 function listUser(PDO $pdo, $id): ?array
 {
@@ -47,7 +56,7 @@ function listUser(PDO $pdo, $id): ?array
     }
 
     $sql = "
-        SELECT 
+        SELECT
             id,
             name,
             email,
@@ -72,7 +81,10 @@ function listUser(PDO $pdo, $id): ?array
 }
 
 /**
- * Verifica se já existe outro usuário com o mesmo e-mail.
+ * Verifica se um e-mail já está cadastrado em outra conta ativa.
+ *
+ * O parâmetro `$idIgnorado` é usado na edição: ele permite manter o e-mail do
+ * próprio usuário sem acusar duplicidade contra ele mesmo.
  */
 function emailExiste(PDO $pdo, string $email, ?int $idIgnorado = null): bool
 {
@@ -99,7 +111,10 @@ function emailExiste(PDO $pdo, string $email, ?int $idIgnorado = null): bool
 }
 
 /**
- * Insere um novo usuário.
+ * Cadastra um novo usuário pelo painel administrativo.
+ *
+ * A senha é salva com `password_hash`, nunca em texto puro. A função retorna um
+ * array padronizado para o `adm.php` decidir se exibe sucesso ou erro.
  */
 function insertUser(PDO $pdo): array
 {
@@ -117,8 +132,16 @@ function insertUser(PDO $pdo): array
 
     $erros = [];
 
+    if ($name === "") {
+        $erros[] = "Preencha o nome.";
+    }
+
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $erros[] = "Preencha o e-mail corretamente.";
+    }
+
+    if ($password === "") {
+        $erros[] = "Preencha a senha.";
     }
 
     if (!empty($email) && emailExiste($pdo, $email)) {
@@ -152,7 +175,6 @@ function insertUser(PDO $pdo): array
     ";
 
     $stmt = $pdo->prepare($sql);
-
     $stmt->execute([
         ":name" => $name,
         ":email" => $email,
@@ -167,7 +189,11 @@ function insertUser(PDO $pdo): array
 }
 
 /**
- * Atualiza um usuário existente.
+ * Atualiza os dados de um usuário pelo painel administrativo.
+ *
+ * A conta ID 1 é protegida para impedir edição do administrador principal. A
+ * senha só é alterada quando o campo vier preenchido; caso contrário, o hash
+ * atual continua no banco.
  */
 function updateUser(PDO $pdo, $id): array
 {
@@ -204,7 +230,11 @@ function updateUser(PDO $pdo, $id): array
 
     $erros = [];
 
-    if (empty($email)) {
+    if ($name === "") {
+        $erros[] = "Preencha o nome.";
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $erros[] = "Preencha o e-mail corretamente.";
     }
 
@@ -226,6 +256,8 @@ function updateUser(PDO $pdo, $id): array
         ];
     }
 
+    // A lista de campos é montada dinamicamente para atualizar a senha apenas
+    // quando o administrador realmente informar uma nova senha.
     $campos = [
         "name = :name",
         "email = :email"
@@ -265,8 +297,10 @@ function updateUser(PDO $pdo, $id): array
 }
 
 /**
- * Deleta usuário usando soft delete.
- * Não apaga do banco; apenas marca como deletado.
+ * Remove definitivamente um usuário do banco de dados.
+ *
+ * A conta ID 1 é bloqueada por segurança. Esse método usa DELETE real, diferente
+ * do processo de exclusão da própria conta do cliente, que usa soft delete.
  */
 function deleteUser(PDO $pdo, $id): array
 {
@@ -287,8 +321,8 @@ function deleteUser(PDO $pdo, $id): array
     }
 
     $sql = "
-    DELETE FROM users
-    WHERE id = :id
+        DELETE FROM users
+        WHERE id = :id
     ";
 
     $stmt = $pdo->prepare($sql);
@@ -305,12 +339,15 @@ function deleteUser(PDO $pdo, $id): array
 
     return [
         "ok" => false,
-        "mensagem" => "Usuário não encontrado ou já deletado."
+        "mensagem" => "Usuário não encontrado."
     ];
 }
 
 /**
- * Lista os destaques/produtos da página inicial.
+ * Lista os destaques/produtos exibidos na página inicial.
+ *
+ * Quando `$somenteAtivos` é verdadeiro, retorna apenas os cards marcados como
+ * ativos. Isso permite que o index.php esconda produtos sem apagar do admin.
  */
 function listDestaques(PDO $pdo, bool $somenteAtivos = false): array
 {
@@ -346,7 +383,7 @@ function listDestaques(PDO $pdo, bool $somenteAtivos = false): array
 }
 
 /**
- * Formata preço para exibição em reais.
+ * Formata um número decimal para o padrão monetário brasileiro.
  */
 function formatarPrecoBr($valor): string
 {
@@ -354,7 +391,10 @@ function formatarPrecoBr($valor): string
 }
 
 /**
- * Classe CSS usada para renderizar uma section-destaque.
+ * Monta as classes CSS usadas por uma section de destaque.
+ *
+ * O banco guarda flags como `is_light` e `is_reverse`; esta função transforma
+ * essas flags em classes reais usadas pelo HTML.
  */
 function classesDestaque(array $destaque): string
 {
@@ -372,7 +412,10 @@ function classesDestaque(array $destaque): string
 }
 
 /**
- * Faz upload opcional da imagem do destaque.
+ * Recebe e salva a imagem enviada para uma section de destaque.
+ *
+ * A função valida o MIME type do arquivo para aceitar apenas JPG, PNG ou WEBP.
+ * Ela retorna um array padronizado com sucesso, caminho salvo ou mensagem de erro.
  */
 function uploadImagemDestaque(int $id): array
 {
@@ -415,6 +458,8 @@ function uploadImagemDestaque(int $id): array
         mkdir($pastaDestino, 0777, true);
     }
 
+    // O ID e o timestamp deixam o nome previsível para organização, mas evitam
+    // sobrescrever imagens antigas do mesmo produto.
     $extensao = $extensoesPermitidas[$mime];
     $nomeArquivo = "destaque_" . $id . "_" . time() . "." . $extensao;
     $destinoFinal = $pastaDestino . "/" . $nomeArquivo;
@@ -435,7 +480,10 @@ function uploadImagemDestaque(int $id): array
 }
 
 /**
- * Atualiza um destaque/produto exibido na página inicial.
+ * Atualiza uma section de destaque existente.
+ *
+ * O admin pode alterar texto, preço, imagem, ordem, layout e status. Se uma nova
+ * imagem for enviada, o caminho antigo é substituído pelo caminho do upload.
  */
 function updateDestaque(PDO $pdo, $id): array
 {
@@ -463,43 +511,7 @@ function updateDestaque(PDO $pdo, $id): array
     $isReverse = isset($_POST["is_reverse"]) ? 1 : 0;
     $isActive = isset($_POST["is_active"]) ? 1 : 0;
 
-    $erros = [];
-
-    if ($htmlId === "") {
-        $erros[] = "Informe o ID HTML da seção.";
-    }
-
-    if (!preg_match('/^[a-zA-Z0-9_-]+$/', $htmlId)) {
-        $erros[] = "O ID HTML deve conter apenas letras, números, hífen ou underline.";
-    }
-
-    if ($productKey === "") {
-        $erros[] = "Informe a chave do produto.";
-    }
-
-    if (!preg_match('/^[a-zA-Z0-9_-]+$/', $productKey)) {
-        $erros[] = "A chave do produto deve conter apenas letras, números, hífen ou underline.";
-    }
-
-    if (strlen($title) < 2) {
-        $erros[] = "Informe um título válido.";
-    }
-
-    if (strlen($description) < 10) {
-        $erros[] = "A descrição precisa ter pelo menos 10 caracteres.";
-    }
-
-    if (!is_numeric($price) || (float) $price <= 0) {
-        $erros[] = "Informe um preço válido.";
-    }
-
-    if ($comboPrice !== "" && (!is_numeric($comboPrice) || (float) $comboPrice <= 0)) {
-        $erros[] = "Informe um preço de combo válido ou deixe em branco.";
-    }
-
-    if ($imagePath === "") {
-        $erros[] = "Informe o caminho da imagem.";
-    }
+    $erros = validarDadosDestaque($htmlId, $productKey, $badgeText, $title, $description, $price, $comboPrice, $imagePath, false);
 
     if ($imageAlt === "") {
         $imageAlt = $title;
@@ -579,6 +591,12 @@ function updateDestaque(PDO $pdo, $id): array
     ];
 }
 
+/**
+ * Cadastra uma nova section de destaque para aparecer na página inicial.
+ *
+ * A inserção usa transação porque o cadastro pode ocorrer em duas etapas: primeiro
+ * cria o registro para obter o ID e depois salva a imagem usando esse ID no nome.
+ */
 function insertDestaque(PDO $pdo): array
 {
     $htmlId = trim($_POST["html_id"] ?? "");
@@ -596,50 +614,10 @@ function insertDestaque(PDO $pdo): array
     $isReverse = isset($_POST["is_reverse"]) ? 1 : 0;
     $isActive = isset($_POST["is_active"]) ? 1 : 0;
 
-    $erros = [];
-
     $temUpload = isset($_FILES["image_file"])
         && $_FILES["image_file"]["error"] !== UPLOAD_ERR_NO_FILE;
 
-    if ($htmlId === "") {
-        $erros[] = "Informe o ID HTML da seção.";
-    }
-
-    if ($htmlId !== "" && !preg_match('/^[a-zA-Z0-9_-]+$/', $htmlId)) {
-        $erros[] = "O ID HTML deve conter apenas letras, números, hífen ou underline.";
-    }
-
-    if ($productKey === "") {
-        $erros[] = "Informe a chave do produto.";
-    }
-
-    if ($productKey !== "" && !preg_match('/^[a-zA-Z0-9_-]+$/', $productKey)) {
-        $erros[] = "A chave do produto deve conter apenas letras, números, hífen ou underline.";
-    }
-
-    if ($badgeText === "") {
-        $erros[] = "Informe o texto da badge.";
-    }
-
-    if (strlen($title) < 2) {
-        $erros[] = "Informe um título válido.";
-    }
-
-    if (strlen($description) < 10) {
-        $erros[] = "A descrição precisa ter pelo menos 10 caracteres.";
-    }
-
-    if (!is_numeric($price) || (float) $price <= 0) {
-        $erros[] = "Informe um preço válido.";
-    }
-
-    if ($comboPrice !== "" && (!is_numeric($comboPrice) || (float) $comboPrice <= 0)) {
-        $erros[] = "Informe um preço de combo válido ou deixe em branco.";
-    }
-
-    if ($imagePath === "" && !$temUpload) {
-        $erros[] = "Informe o caminho da imagem ou envie uma nova imagem.";
-    }
+    $erros = validarDadosDestaque($htmlId, $productKey, $badgeText, $title, $description, $price, $comboPrice, $imagePath, $temUpload);
 
     if ($imageAlt === "") {
         $imageAlt = $title;
@@ -693,7 +671,6 @@ function insertDestaque(PDO $pdo): array
         ";
 
         $stmt = $pdo->prepare($sql);
-
         $stmt->execute([
             ":html_id" => $htmlId,
             ":product_key" => $productKey,
@@ -725,8 +702,6 @@ function insertDestaque(PDO $pdo): array
                 ];
             }
 
-            $imagePath = $upload["path"];
-
             $sqlImagem = "
                 UPDATE featured_sections
                 SET image_path = :image_path
@@ -734,9 +709,8 @@ function insertDestaque(PDO $pdo): array
             ";
 
             $stmtImagem = $pdo->prepare($sqlImagem);
-
             $stmtImagem->execute([
-                ":image_path" => $imagePath,
+                ":image_path" => $upload["path"],
                 ":id" => $novoId
             ]);
         }
@@ -761,4 +735,66 @@ function insertDestaque(PDO $pdo): array
             ]
         ];
     }
+}
+
+/**
+ * Valida os campos comuns de criação e edição de destaques.
+ *
+ * Centralizar essa regra evita duplicar as mesmas verificações em `insertDestaque`
+ * e `updateDestaque`.
+ */
+function validarDadosDestaque(
+    string $htmlId,
+    string $productKey,
+    string $badgeText,
+    string $title,
+    string $description,
+    string $price,
+    string $comboPrice,
+    string $imagePath,
+    bool $temUpload
+): array {
+    $erros = [];
+
+    if ($htmlId === "") {
+        $erros[] = "Informe o ID HTML da seção.";
+    }
+
+    if ($htmlId !== "" && !preg_match('/^[a-zA-Z0-9_-]+$/', $htmlId)) {
+        $erros[] = "O ID HTML deve conter apenas letras, números, hífen ou underline.";
+    }
+
+    if ($productKey === "") {
+        $erros[] = "Informe a chave do produto.";
+    }
+
+    if ($productKey !== "" && !preg_match('/^[a-zA-Z0-9_-]+$/', $productKey)) {
+        $erros[] = "A chave do produto deve conter apenas letras, números, hífen ou underline.";
+    }
+
+    if ($badgeText === "") {
+        $erros[] = "Informe o texto da badge.";
+    }
+
+    if (strlen($title) < 2) {
+        $erros[] = "Informe um título válido.";
+    }
+
+    if (strlen($description) < 10) {
+        $erros[] = "A descrição precisa ter pelo menos 10 caracteres.";
+    }
+
+    if (!is_numeric($price) || (float) $price <= 0) {
+        $erros[] = "Informe um preço válido.";
+    }
+
+    if ($comboPrice !== "" && (!is_numeric($comboPrice) || (float) $comboPrice <= 0)) {
+        $erros[] = "Informe um preço de combo válido ou deixe em branco.";
+    }
+
+    if ($imagePath === "" && !$temUpload) {
+        $erros[] = "Informe o caminho da imagem ou envie uma nova imagem.";
+    }
+
+    return $erros;
 }

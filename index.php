@@ -1,4 +1,5 @@
 <?php
+// Controla se o JavaScript deve mostrar o alerta de pedido finalizado.
 $pedidoFeito = false;
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -12,6 +13,7 @@ if (isset($_SESSION["pedidofeito"])) {
 
 require_once "config/admFunctions.php";
 
+// Busca somente as sections ativas; o conteúdo é gerenciado no painel adm.php.
 $destaques = listDestaques($pdo, true);
 
 require "includes/header.php";
@@ -26,6 +28,7 @@ require "includes/header.php";
         </div>
     </section>
 
+    <?php // Renderiza dinamicamente cada section destaque cadastrada no banco. ?>
     <?php foreach ($destaques as $destaque): ?>
         <section class="<?= htmlspecialchars(classesDestaque($destaque)) ?>" id="<?= htmlspecialchars($destaque["html_id"]) ?>">
             <div class="container-flex">
@@ -44,6 +47,7 @@ require "includes/header.php";
                         <?php endif; ?>
                     </div>
 
+                    <!-- Os atributos data-* alimentam o modal de pedido no src/js/index.js. -->
                     <a
                         class="btn-comprar"
                         data-id="<?= htmlspecialchars($destaque["product_key"]) ?>"

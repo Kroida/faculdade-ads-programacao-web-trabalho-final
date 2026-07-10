@@ -4,6 +4,7 @@
 <main>
     <?php
 
+    // Mensagens flash: são exibidas uma vez e removidas da sessão.
     if (isset($_SESSION["erro"])) {
         ?>
 
@@ -18,6 +19,7 @@
 
     <?php
 
+    // Exibe retorno positivo vindo de cadastro, update ou exclusão.
     if (isset($_SESSION["sucesso"])) {
         ?>
 
@@ -51,6 +53,7 @@
 
             <?php
 
+            // Usuários comuns podem excluir a própria conta; o admin acessa o painel.
             if (isset($_SESSION["id"]) && (int) ($_SESSION["id"]) !== 1) {
                 ?>
 

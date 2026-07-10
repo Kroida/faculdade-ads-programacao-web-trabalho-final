@@ -1,11 +1,14 @@
 <?php
 
+// Processa o cadastro público de usuários.
+
 require "../config/conexao.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Bloqueia acesso direto; cadastro só deve ocorrer por POST.
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: ../login.php");
     exit;
@@ -28,6 +31,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
+// password_hash gera um hash seguro; a senha nunca é gravada em texto puro.
 $passwordHash = password_hash(
     $rawPassword,
     PASSWORD_DEFAULT
@@ -55,6 +59,7 @@ try {
         ":profile_image" => $profileImage
     ]);
 
+    // Após cadastrar, já cria a sessão para o usuário entrar logado.
     $userId = $pdo->lastInsertId();
     $_SESSION["id"] = $userId;
     $_SESSION["profile_image"] = $profileImage;
@@ -66,7 +71,8 @@ try {
     header("Location: ../index.php");
     exit;
 } catch (PDOException $e) {
-    if ($e->getCode() === "23000") { // violação de constraint UNIQUE
+    // Código 23000 normalmente indica violação de UNIQUE, como e-mail duplicado.
+    if ($e->getCode() === "23000") {
         $_SESSION["erro"] = "Este e-mail já está cadastrado.";
         header("Location: ../login.php");
         exit;

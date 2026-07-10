@@ -3,8 +3,11 @@
 require "auth/authAdm.php";
 require "config/admFunctions.php";
 
+// Centraliza todas as ações POST do painel administrativo.
+// Cada formulário envia um campo "acao" para indicar qual operação deve rodar.
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["acao"])) {
 
+    // Cadastra um usuário diretamente pelo painel admin.
     if ($_POST["acao"] === "cadastrar") {
         $resultado = insertUser($pdo);
 
@@ -18,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["acao"])) {
         exit;
     }
 
+    // Edita um usuário existente sem sair da página adm.php.
     if ($_POST["acao"] === "editar") {
         $resultado = updateUser($pdo, $_POST["id"] ?? 0);
 
@@ -31,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["acao"])) {
         exit;
     }
 
+    // Atualiza uma section destaque da home e volta para a área de destaques.
     if ($_POST["acao"] === "editar_destaque") {
         $resultado = updateDestaque($pdo, $_POST["id"] ?? 0);
 
@@ -44,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["acao"])) {
         exit;
     }
 
+    // Remove usuários comuns; a função bloqueia o usuário ID 1 por segurança.
     if ($_POST["acao"] === "deletar") {
         $resultado = deleteUser($pdo, $_POST["id"] ?? 0);
 
@@ -57,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["acao"])) {
         exit;
     }
 
+    // Cria uma nova section destaque para a página inicial.
     if ($_POST["acao"] === "cadastrar_destaque") {
         $resultado = insertDestaque($pdo);
 
@@ -71,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["acao"])) {
     }
 }
 
+// O header é carregado depois do tratamento de POST para permitir redirects com header().
 require "includes/header.php";
 
 ?>
@@ -127,6 +135,7 @@ require "includes/header.php";
 
                 <tbody>
                     <?php
+                    // Busca os usuários cadastrados e renderiza a tabela do CRUD.
                     $usuarios = listUsers($pdo);
 
                     foreach ($usuarios as $usuario):
@@ -226,6 +235,7 @@ require "includes/header.php";
                 </div>
 
                 <?php
+                // Carrega os destaques do banco para pré-visualização e edição dinâmica.
                 $destaques = listDestaques($pdo);
                 $proximaOrdem = count($destaques) + 1;
                 ?>
@@ -316,6 +326,7 @@ require "includes/header.php";
                     </form>
                 </details>
 
+                <?php // Cada item abaixo mostra a section como ela aparece na home e seu formulário de edição. ?>
                 <?php foreach ($destaques as $destaque): ?>
                     <article class="admin-destaque-card">
                         <div class="admin-destaque-preview">

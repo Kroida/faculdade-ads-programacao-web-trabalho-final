@@ -1,5 +1,7 @@
 <?php
 
+// Protege páginas administrativas.
+// Apenas o usuário com ID 1 é tratado como administrador principal.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

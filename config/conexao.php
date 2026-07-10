@@ -1,5 +1,8 @@
 <?php
 
+// Cria e disponibiliza a conexão PDO usada por todo o projeto.
+// O charset utf8mb4 evita problemas com acentos e emojis.
+
 /*
 As partes comentadas são para caso você esteja usando xamp
 */
@@ -12,6 +15,7 @@ $user = 'goku';
 $pass = '4321';
 
 try {
+    // Como o MySQL está no Docker, o PHP do XAMPP acessa a porta 3307 do host.
     $pdo = new PDO(
         // "mysql:host=$host;dbname=$db;charset=utf8mb4",
         "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4",

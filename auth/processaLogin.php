@@ -1,11 +1,14 @@
 <?php
 
+// Processa o formulário de login e cria a sessão do usuário autenticado.
+
 require "../config/conexao.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Bloqueia acesso direto pelo navegador; este arquivo só aceita envio via POST.
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: ../login.php");
     exit;
@@ -37,6 +40,7 @@ AND status = 'active'
 $stmt = $pdo->prepare($sql);
 
 try {
+    // O e-mail entra como parâmetro para evitar SQL Injection.
     $stmt->execute([
         ":email" => $email
     ]);
@@ -51,6 +55,7 @@ try {
         exit;
     }
 
+    // Compara a senha digitada com o hash salvo no banco.
     if (!password_verify($password, $usuario["password_hash"])) {
 
         $_SESSION["erro"] = "Senha incorreta.";
@@ -59,6 +64,7 @@ try {
         exit;
     }
 
+    // Salva na sessão os dados usados pelo header e pelas páginas protegidas.
     $_SESSION["id"] = $usuario["id"];
     $_SESSION["profile_image"] = $usuario["profile_image"];
     $_SESSION["name"] = $usuario["name"];

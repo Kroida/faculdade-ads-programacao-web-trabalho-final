@@ -1,5 +1,6 @@
 <?php
 
+// Finaliza a sessão do usuário e volta para a página inicial.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

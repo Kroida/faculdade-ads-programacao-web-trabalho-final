@@ -1,3 +1,4 @@
+// Executa os módulos da página inicial somente depois que o HTML foi carregado.
 document.addEventListener("DOMContentLoaded", function () {
     pedidoFeitoAlert();
     checkin();
@@ -5,6 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
     mostrarOpcaoPagamento();
 });
 
+/**
+ * Configura o modal de pedido para todos os botões "Adicionar ao Pedido".
+ *
+ * Os dados do produto vêm dos atributos data-* gerados dinamicamente pelo PHP.
+ * Assim, quando o administrador muda uma section destaque no banco, o modal já
+ * passa a usar os novos valores sem precisar alterar o JavaScript.
+ */
 function checkin() {
     const modal = document.getElementById("modal");
     const modalNome = document.getElementById("modal-nome");
@@ -50,6 +58,12 @@ function checkin() {
     });
 }
 
+/**
+ * Recalcula o valor total do pedido no modal.
+ *
+ * Se o produto tiver preço de combo e a quantidade for 2, o total usa o valor do
+ * combo. Caso contrário, multiplica o preço unitário pela quantidade escolhida.
+ */
 function checkinAtualizarTotal(produtoAtual, modalPrecoTotal) {
     if (!produtoAtual || !modalPrecoTotal) {
         return;
@@ -65,6 +79,9 @@ function checkinAtualizarTotal(produtoAtual, modalPrecoTotal) {
     modalPrecoTotal.textContent = formatarPreco(total);
 }
 
+/**
+ * Formata valores numéricos em moeda brasileira.
+ */
 function formatarPreco(valor) {
     return valor.toLocaleString("pt-BR", {
         style: "currency",
@@ -72,6 +89,9 @@ function formatarPreco(valor) {
     });
 }
 
+/**
+ * Configura os botões de fechar e cancelar do modal de pedido.
+ */
 function setupModalCloseButtons() {
     const modal = document.getElementById("modal");
     const botaoFechar = document.getElementById("fechar");
@@ -90,6 +110,9 @@ function setupModalCloseButtons() {
     });
 }
 
+/**
+ * Exibe ou esconde os campos de cartão conforme a forma de pagamento escolhida.
+ */
 function mostrarOpcaoPagamento() {
     const selectPagamento = document.querySelector("select[name='payment']");
     const camposCartao = document.querySelectorAll(".input-cartao");
@@ -107,6 +130,12 @@ function mostrarOpcaoPagamento() {
     });
 }
 
+/**
+ * Mostra um alerta simples quando o pedido foi finalizado.
+ *
+ * A variável `pedidoFeito` é impressa pelo PHP no footer para informar ao JS que
+ * o pedido acabou de ser concluído.
+ */
 function pedidoFeitoAlert() {
     if (typeof pedidoFeito !== "undefined" && pedidoFeito === true) {
         alert("Obrigado pela compra! Recibo enviado por email.");

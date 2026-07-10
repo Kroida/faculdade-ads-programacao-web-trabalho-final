@@ -1,11 +1,14 @@
 <?php
 
+// Processa a atualização dos dados do próprio usuário.
+
 require "../config/conexao.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Impede acesso direto; atualização só acontece por envio do formulário.
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: ../processaUpdate.php");
     exit;
@@ -31,6 +34,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 $profileImage = null;
 
+// Upload de foto é opcional. Quando enviado, valida tamanho, tipo e destino.
 if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === UPLOAD_ERR_OK) {
 
     if ($_FILES["photo"]["size"] > 5 * 1024 * 1024) {
@@ -80,6 +84,7 @@ if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === UPLOAD_ERR_OK) {
     $profileImage = "uploads/profiles/" . $novoNome;
 }
 
+// A query é montada dinamicamente para atualizar senha e foto apenas se existirem.
 $sql = "
 
 UPDATE users
@@ -99,6 +104,7 @@ $params = [
 
 ];
 
+// Só troca a senha quando o usuário preenche o campo "Nova senha".
 if ($rawPassword !== "") {
 
     $sql .= ", password_hash = :password";
@@ -109,6 +115,7 @@ if ($rawPassword !== "") {
     );
 }
 
+// Só troca a imagem no banco quando um novo arquivo foi salvo com sucesso.
 if ($profileImage !== null) {
 
     $sql .= ", profile_image = :photo";
@@ -128,10 +135,12 @@ try {
 
     $stmt->execute($params);
 
+    // Mantém a sessão sincronizada com os dados recém-salvos.
     $_SESSION["name"] = $name;
     $_SESSION["email"] = $email;
 
-    if ($profileImage !== null) {
+    // Só troca a imagem no banco quando um novo arquivo foi salvo com sucesso.
+if ($profileImage !== null) {
         $_SESSION["profile_image"] = $profileImage;
     }
 

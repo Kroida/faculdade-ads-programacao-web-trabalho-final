@@ -12,6 +12,7 @@
 
     <?php
 
+    // Garante que as informações do usuário logado estejam disponíveis no header.
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
@@ -24,6 +25,7 @@
 
                 <a href="index.php"><h1>UniFood</h1></a>
 
+                <?php // Se existir sessão, mostra dados do usuário; caso contrário, mostra login. ?>
                 <?php if (isset($_SESSION["id"])): ?>
 
                     <div class="usuario">
@@ -31,7 +33,7 @@
                         <span>Olá, <?= htmlspecialchars($_SESSION["name"]) ?> 👋</span>
 
                         <a href="auth/logout.php" class="btn-header">Logout</a>
-                        <a href="dadosCliente.php" class="btn-usuario" title="Mostrar dados"><img src="<?= htmlspecialchars($_SESSION["profile_image"]) ?>"></a>
+                        <a href="dadosCliente.php" class="btn-usuario" title="Mostrar dados"><img src="<?= htmlspecialchars($_SESSION["profile_image"]) ?>" alt="Foto do usuário"></a>
 
                     </div>
 

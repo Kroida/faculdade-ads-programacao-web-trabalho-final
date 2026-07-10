@@ -1,5 +1,7 @@
 <?php
 
+// Protege páginas que exigem usuário logado.
+// Se não existir sessão de usuário, redireciona para o login.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

@@ -3,6 +3,7 @@
 <main>
     <?php
 
+    // Mensagens flash: são exibidas uma vez e removidas da sessão.
     if (isset($_SESSION["erro"])) {
         ?>
 
@@ -17,6 +18,7 @@
 
     <?php
 
+    // Exibe retorno positivo vindo de cadastro, update ou exclusão.
     if (isset($_SESSION["sucesso"])) {
         ?>
 

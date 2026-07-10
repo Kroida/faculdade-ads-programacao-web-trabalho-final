@@ -1,11 +1,14 @@
 <?php
 
+// Processa a exclusão da própria conta do usuário logado.
+
 require "../config/conexao.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Exclusão só pode ser disparada pelo formulário de confirmação.
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: ../processaUpdate.php");
     exit;
@@ -13,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 $id = $_SESSION["id"];
 
+// Aqui é usado soft delete: a conta sai do login, mas o registro continua no banco.
 $sql = "
     UPDATE users
     SET deleted_at = NOW(),
