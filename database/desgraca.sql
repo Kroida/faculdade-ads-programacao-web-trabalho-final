@@ -29,3 +29,17 @@ CREATE TABLE users (
     INDEX idx_users_status (status),
     INDEX idx_users_deleted_at (deleted_at)
 ) ENGINE = InnoDB;
+
+INSERT INTO users (
+    name,
+    email,
+    password_hash,
+    profile_image,
+    status
+) VALUES (
+    'Goku',
+    'goku@gmail.com',
+    '$2y$10$EnkwPqrtpHnKPwfoU4pegOWP0s4fbQGPi0RFuQSzzFBDB8H9tHs.K',
+    'uploads/default/goku.jpg',
+    'active'
+);

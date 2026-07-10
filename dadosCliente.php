@@ -1,4 +1,5 @@
 <?php require "includes/header.php"; ?>
+<?php require "auth/auth.php"; ?>
 
 <main>
     <?php
@@ -10,7 +11,7 @@
             <p><?= htmlspecialchars($_SESSION["erro"]) ?></p>
         </div>
 
-        <?php
+    <?php
         unset($_SESSION["erro"]);
     }
     ?>
@@ -24,7 +25,7 @@
             <p><?= htmlspecialchars($_SESSION["sucesso"]) ?></p>
         </div>
 
-        <?php
+    <?php
         unset($_SESSION["sucesso"]);
     }
     ?>
@@ -47,7 +48,25 @@
 
                 <button id="btn-update" type="submit">Salvar alterações</button>
             </form>
-            <a class="btn-delete">Excluir conta</a>
+
+            <?php
+
+            if (isset($_SESSION["id"]) && (int) ($_SESSION["id"]) !== 1) {
+                ?>
+
+                <a id="btn-delete" class="btn-opcao-dados">Excluir conta</a>
+
+            <?php
+
+            } else {
+                ?>
+
+                <a id="btn-admin" class="btn-opcao-dados" href="adm.php">Opções de administrador</a>
+
+            <?php
+            }
+            ?>
+
         </div>
     </section>
 

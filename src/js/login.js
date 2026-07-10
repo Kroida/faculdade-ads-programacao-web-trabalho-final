@@ -45,7 +45,7 @@ function initAuthToggle() {
 }
 
 function deleteAccount() {
-    const botaoDelete = document.querySelector(".btn-delete");
+    const botaoDelete = document.getElementById("btn-delete");
     const modal = document.getElementById("modal");
     const modalDescricao = document.getElementById("modal-descricao");
 

@@ -127,7 +127,7 @@ require "includes/header.php";
             <button type="button" id="fechar" class="btn-fechar">✕</button>
         </div>
 
-        <form action="auth/auth.php" method="POST" class="pedido-form">
+        <form action="auth/authPedido.php" method="POST" class="pedido-form">
             <div class="produto-info">
                 <h3 id="modal-nome"></h3>
                 <p id="modal-descricao"></p>

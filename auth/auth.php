@@ -5,14 +5,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION["id"])) {
-    $_SESSION["erro"] = "Faça o login antes de realizar uma compra!";
+    $_SESSION["erro"] = "Faça login antes de realizar esta ação!";
 
-    header("Location: processaLogin.php");
-    exit;
-
-} else {
-    $_SESSION["pedidofeito"] = true;
-
-    header("Location: ../index.php");
+    header("Location: login.php");
     exit;
 }
