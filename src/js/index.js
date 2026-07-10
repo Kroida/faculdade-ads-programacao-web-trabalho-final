@@ -2,47 +2,20 @@ document.addEventListener("DOMContentLoaded", function () {
     pedidoFeitoAlert();
     checkin();
     setupModalCloseButtons();
-    mostrarOpcaoPagamento(); // ✅ Deixa por último
+    mostrarOpcaoPagamento();
 });
 
 function checkin() {
-    const produtos = {
-        biguni: {
-            nome: "BigUni",
-            preco: 31.90,
-            combo: 37.90,
-            descricao: "2 hamburgeres com alface, cebola, picles e pao com gergelim, e aquele molho especial da marca do palhaço."
-        },
-        BoxCasalUni: {
-            nome: "BoxCasalUni",
-            preco: 54.90,
-            descricao: "A combinação perfeita para dividir: 2 hamburger Salada de forma caprichada, com porção de batata."
-        },
-        kids: {
-            nome: "KidsUni",
-            preco: 21.90,
-            combo: 28.90,
-            descricao: "A opção perfeita para nossos pequenos, pão, carne e queijo com toque da nossa maionese especial."
-        },
-        MegaUltraUni: {
-            nome: "MegaUltraUni",
-            preco: 39.90,
-            combo: 43.90,
-            descricao: "A opção perfeita para quebrar o seu jejum, com 4 carnes e muitoo queijo cheddar."
-        },
-        BrownieUni: {
-            nome: "BrownieUni",
-            preco: 14.90,
-            descricao: "A opção perfeita para uma sobremesa, pedacinhos de brownie com nossa calda de chocolate a parte."
-        },
-    };
-
     const modal = document.getElementById("modal");
     const modalNome = document.getElementById("modal-nome");
     const modalDescricao = document.getElementById("modal-descricao");
     const modalPreco = document.getElementById("modal-preco");
     const modalPrecoTotal = document.getElementById("modal-preco-total");
     const inputQuantidade = document.getElementById("quantidade");
+
+    if (!modal || !inputQuantidade) {
+        return;
+    }
 
     let produtoAtual = null;
 
@@ -51,16 +24,24 @@ function checkin() {
     });
 
     const botoes = document.querySelectorAll(".btn-comprar");
+
     botoes.forEach(botao => {
         botao.addEventListener("click", () => {
-            const id = botao.dataset.id;
-            produtoAtual = produtos[id];
+            const preco = Number(botao.dataset.preco || 0);
+            const combo = botao.dataset.combo ? Number(botao.dataset.combo) : null;
 
-            document.getElementById("quantidade").value = 1;
+            produtoAtual = {
+                nome: botao.dataset.nome || "Produto",
+                descricao: botao.dataset.descricao || "",
+                preco: preco,
+                combo: combo
+            };
+
+            inputQuantidade.value = 1;
 
             modalNome.textContent = produtoAtual.nome;
             modalDescricao.textContent = produtoAtual.descricao;
-            modalPreco.textContent = `R$ ${produtoAtual.preco.toFixed(2)}`;
+            modalPreco.textContent = formatarPreco(produtoAtual.preco);
 
             checkinAtualizarTotal(produtoAtual, modalPrecoTotal);
 
@@ -70,20 +51,35 @@ function checkin() {
 }
 
 function checkinAtualizarTotal(produtoAtual, modalPrecoTotal) {
-    const quantidade = Number(document.getElementById("quantidade").value);
+    if (!produtoAtual || !modalPrecoTotal) {
+        return;
+    }
+
+    const quantidade = Number(document.getElementById("quantidade").value || 1);
     let total = produtoAtual.preco * quantidade;
 
     if (produtoAtual.combo && quantidade === 2) {
         total = produtoAtual.combo;
     }
 
-    modalPrecoTotal.textContent = `R$ ${total.toFixed(2)}`;
+    modalPrecoTotal.textContent = formatarPreco(total);
+}
+
+function formatarPreco(valor) {
+    return valor.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
 }
 
 function setupModalCloseButtons() {
     const modal = document.getElementById("modal");
     const botaoFechar = document.getElementById("fechar");
     const botaoCancelar = document.getElementById("cancelar");
+
+    if (!modal || !botaoFechar || !botaoCancelar) {
+        return;
+    }
 
     botaoFechar.addEventListener("click", () => {
         modal.close();
@@ -98,24 +94,21 @@ function mostrarOpcaoPagamento() {
     const selectPagamento = document.querySelector("select[name='payment']");
     const camposCartao = document.querySelectorAll(".input-cartao");
 
-    // Evento ao mudar a opção de pagamento
+    if (!selectPagamento) {
+        return;
+    }
+
     selectPagamento.addEventListener("change", (event) => {
         const opcao = event.target.value;
 
-        if (opcao === "credito" || opcao === "debito") {
-            camposCartao.forEach(campo => {
-                campo.hidden = false;
-            });
-        } else {
-            camposCartao.forEach(campo => {
-                campo.hidden = true;
-            });
-        }
+        camposCartao.forEach(campo => {
+            campo.hidden = !(opcao === "credito" || opcao === "debito");
+        });
     });
 }
 
 function pedidoFeitoAlert() {
-    if (typeof pedidoFeito !== 'undefined' && pedidoFeito === true) {
-        alert('Obrigado pela compra! Recibo enviado por email.');
+    if (typeof pedidoFeito !== "undefined" && pedidoFeito === true) {
+        alert("Obrigado pela compra! Recibo enviado por email.");
     }
 }

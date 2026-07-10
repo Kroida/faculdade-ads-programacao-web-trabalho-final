@@ -10,6 +10,10 @@ if (isset($_SESSION["pedidofeito"])) {
     unset($_SESSION["pedidofeito"]);
 }
 
+require_once "config/admFunctions.php";
+
+$destaques = listDestaques($pdo, true);
+
 require "includes/header.php";
 ?>
 
@@ -22,102 +26,44 @@ require "includes/header.php";
         </div>
     </section>
 
-    <section class="section-destaque" id="destaque1">
-        <div class="container-flex">
-            <div class="destaque-texto">
-                <span class="badge-tag">O Mais Pedido com 5 estrelas</span>
-                <h2>BigUni</h2>
-                <p>2 hamburgeres com alface, cebola, picles e pao com gergelim, e aquele molho especial da marca do
-                    palhaço.</p>
-                <div class="preco-box">
-                    <span class="Preco-Hamburger">R$31,90</span>
-                    <span class="Preco-Combo">37,90</span>
+    <?php foreach ($destaques as $destaque): ?>
+        <section class="<?= htmlspecialchars(classesDestaque($destaque)) ?>" id="<?= htmlspecialchars($destaque["html_id"]) ?>">
+            <div class="container-flex">
+                <div class="destaque-texto">
+                    <span class="badge-tag"><?= htmlspecialchars($destaque["badge_text"]) ?></span>
+
+                    <h2><?= htmlspecialchars($destaque["title"]) ?></h2>
+
+                    <p><?= htmlspecialchars($destaque["description"]) ?></p>
+
+                    <div class="preco-box">
+                        <span class="preco-atual"><?= htmlspecialchars(formatarPrecoBr($destaque["price"])) ?></span>
+
+                        <?php if (!empty($destaque["combo_price"])): ?>
+                            <span class="Preco-Combo"><?= htmlspecialchars(formatarPrecoBr($destaque["combo_price"])) ?></span>
+                        <?php endif; ?>
+                    </div>
+
+                    <a
+                        class="btn-comprar"
+                        data-id="<?= htmlspecialchars($destaque["product_key"]) ?>"
+                        data-nome="<?= htmlspecialchars($destaque["title"]) ?>"
+                        data-descricao="<?= htmlspecialchars($destaque["description"]) ?>"
+                        data-preco="<?= htmlspecialchars($destaque["price"]) ?>"
+                        data-combo="<?= htmlspecialchars($destaque["combo_price"] ?? "") ?>"
+                    >
+                        Adicionar ao Pedido
+                    </a>
                 </div>
-                <a class="btn-comprar" data-id="biguni">Adicionar ao Pedido</a>
-            </div>
 
-            <div class="destaque-img1">
-                <div class="img-placeholder"><img src="src/img/bigmac.jpg"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-destaque bg-light reverse" id="destaque-2">
-        <div class="container-flex">
-            <div class="destaque-texto">
-                <span class="badge-tag">Melhor Custo-Beneficio</span>
-                <h2>BoxCasalUni</h2>
-                <p>A combinação perfeita para dividir: 2 hamburger Salada de forma caprichada, com porção de batata.
-                </p>
-                <div class="preco-casal">
-                    <span class="preco-atual">R$ 54,90</span>
+                <div class="destaque-img1">
+                    <div class="img-placeholder">
+                        <img src="<?= htmlspecialchars($destaque["image_path"]) ?>" alt="<?= htmlspecialchars($destaque["image_alt"]) ?>">
+                    </div>
                 </div>
-                <a class="btn-comprar" data-id="BoxCasalUni">Adicionar ao Pedido</a>
             </div>
-
-            <div class="destaque-img1">
-                <div class="img-placeholder"><img src="src/img/casal.webp"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-destaque" id="destaque-3">
-        <div class="container-flex">
-            <div class="destaque-texto">
-                <span class="badge-tag">Melhor opção para os nossos pequenos</span>
-                <h2>KidsUni</h2>
-                <p>A opção perfeita para nossos pequenos, pão, carne e queijo com toque da nossa maionese especial.
-                </p>
-                <div class="preco-kids">
-                    <span class="preco-atual">R$ 21,90</span>
-                    <span class="Preco-Combo">28,90</span>
-                </div>
-                <a class="btn-comprar" data-id="kids">Adicionar ao Pedido</a>
-            </div>
-
-            <div class="destaque-img1">
-                <div class="img-placeholder"><img src="src/img/Kids.jpg"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-destaque bg-light reverse" id="destaque-4">
-        <div class="container-flex">
-            <div class="destaque-texto">
-                <span class="badge-tag">Melhor opção para o seu desjejum</span>
-                <h2>MegaUltraUni</h2>
-                <p>A opção perfeita para quebrar o seu jejum, com 4 carnes e muitoo queijo cheddar.</p>
-                <div class="preco-Mega">
-                    <span class="preco-atual">R$ 39,90</span>
-                    <span class="Preco-Combo">43,90</span>
-                </div>
-                <a class="btn-comprar" data-id="MegaUltraUni">Adicionar ao Pedido</a>
-            </div>
-
-            <div class="destaque-img1">
-                <div class="img-placeholder"><img src="src/img/mega.jpg"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-destaque" id="destaque-5">
-        <div class="container-flex">
-            <div class="destaque-texto">
-                <span class="badge-tag">Melhor opção de sobremesa</span>
-                <h2>BrownieUni</h2>
-                <p>A opção perfeita para uma sobremesa, pedacinhos de brownie com nossa calda de chocolate a parte.
-                </p>
-                <div class="preco-Brownie">
-                    <span class="preco-atual">R$ 14,90</span>
-                </div>
-                <a class="btn-comprar" data-id="BrownieUni">Adicionar ao Pedido</a>
-            </div>
-
-            <div class="destaque-img1">
-                <div class="img-placeholder"><img src="src/img/brownie.jpg"></div>
-            </div>
-        </div>
-    </section>
+        </section>
+    <?php endforeach; ?>
 
     <section class="pre-foot-section" id="formulario"></section>
 
@@ -140,8 +86,7 @@ require "includes/header.php";
 
             <div class="campo">
                 <label for="observacao">Alguma observação?</label>
-                <textarea id="observacao" name="observacao" rows="4"
-                    placeholder="Ex.: sem cebola, molho à parte..."></textarea>
+                <textarea id="observacao" name="observacao" rows="4" placeholder="Ex.: sem cebola, molho à parte..."></textarea>
             </div>
 
             <div class="campo">
